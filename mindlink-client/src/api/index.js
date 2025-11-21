@@ -1,0 +1,28 @@
+const BASE_URL = "http://localhost:5116";
+
+export const ENDPOINTS = {
+    register: 'auth/register'
+};
+
+export const postRequest = async (endpoint, request) => {
+    const url = BASE_URL + '/api/' + endpoint + '/';
+    
+    var response = await fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(request),
+        credentials: "include"
+    });
+
+    if (!response.ok){
+        const errorData = await response.json().catch(()=>({}));
+        throw {
+            status: response.status,
+            message: errorData.message || "Request failed"
+        };
+    }
+
+    return await response.json(); //returns response body
+}

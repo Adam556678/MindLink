@@ -46,7 +46,7 @@ export default function Register() {
             
             <Form.Group className='mb-3 ' controlId='formRepeatPassword'>
                 <Form.Label className='fw-semibold'>Repeat Password</Form.Label>
-                <Form.Control type='email' placeholder='Enter your password' 
+                <Form.Control type='password' placeholder='Enter your password' 
                    onChange={(e) => {
                     updateRegisterInfo({...registerInfo, repeatPassword: e.target.value})
                    }} />
