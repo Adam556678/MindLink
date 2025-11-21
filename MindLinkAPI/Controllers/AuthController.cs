@@ -15,7 +15,10 @@ namespace MindLinkAPI.Controllers
             var user = await authService.RegisterAsync(request); 
             if (user == null)
             {
-                return BadRequest("Email is already used");
+                return BadRequest(new
+                {
+                    message = "Email is already used" 
+                });
             }
 
             return Ok(user);

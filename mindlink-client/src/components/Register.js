@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Form, Button, Card } from "react-bootstrap";
+import { Form, Button, Card, Alert } from "react-bootstrap";
 import { AuthContext } from '../context/AuthContext';
 
 export default function Register() {
@@ -59,6 +59,11 @@ export default function Register() {
             >
               Register
             </Button>
+
+            {registerError ? <Alert variant='danger' className='mt-3'>
+              <p>{registerError}</p>
+            </Alert> : null}
+
           </Form>
         </Card.Body>
       </Card>

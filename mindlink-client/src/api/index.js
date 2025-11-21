@@ -20,7 +20,7 @@ export const postRequest = async (endpoint, request) => {
         const errorData = await response.json().catch(()=>({}));
         throw {
             status: response.status,
-            message: errorData.message || "Request failed"
+            message: errorData.message || "Something went wrong"
         };
     }
 
