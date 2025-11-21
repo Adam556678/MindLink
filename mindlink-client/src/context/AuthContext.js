@@ -11,6 +11,31 @@ export const AuthContextProvider = ({children}) => {
         repeatPassword: ""
     })
     const [registerError, setRegisterError] = useState(null);
+    
+    const [loginInfo, setLoginInfo] = useState({
+        email: "",
+        password: ""
+    });
+    const [loginError, setLoginError] = useState(null);
+
+    const updateLoginInfo = useCallback((info) => {
+        setLoginInfo(info)
+    }, []);
+
+    const loginUser = useCallback(async (e) => {
+        e.preventDefault();
+
+        setLoginError(null);
+        
+        try {
+            var response = await postRequest(ENDPOINTS.login, loginInfo);        
+            console.log(response);
+        } catch (error) {
+            console.log(error.message);
+            setLoginError(error.message);
+        }
+
+    }, [loginInfo]);
 
     const registerUser = useCallback(async (e) => {
         e.preventDefault();
@@ -18,7 +43,6 @@ export const AuthContextProvider = ({children}) => {
         setRegisterError(null);
 
         if (registerInfo.password !== registerInfo.repeatPassword){
-            console.log("Passwords aren't matched");
             return setRegisterError("Passwords are not matched");
         }
 
@@ -46,7 +70,11 @@ export const AuthContextProvider = ({children}) => {
             registerInfo,
             registerError,
             setRegisterError,
-            updateRegisterInfo
+            updateRegisterInfo,
+            loginInfo,
+            updateLoginInfo,
+            loginUser,
+            loginError
         }}>
         {children}
     </AuthContext.Provider>

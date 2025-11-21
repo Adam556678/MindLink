@@ -1,7 +1,8 @@
 const BASE_URL = "http://localhost:5116";
 
 export const ENDPOINTS = {
-    register: 'auth/register'
+    register: 'auth/register',
+    login: 'auth/login'
 };
 
 export const postRequest = async (endpoint, request) => {

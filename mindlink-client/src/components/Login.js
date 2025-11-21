@@ -1,7 +1,16 @@
-import React from 'react'
-import { Form, Button, Card } from "react-bootstrap";
+import React, { useContext } from 'react'
+import { Form, Button, Card, Alert } from "react-bootstrap";
+import { AuthContext } from '../context/AuthContext';
 
 export default function Login() {
+
+  const {
+    updateLoginInfo,
+    loginUser,
+    loginError,
+    loginInfo
+  } = useContext(AuthContext);
+
   return (
     <div className="d-flex justify-content-center align-items-center vh-100">
       <Card className="col-sm-8 col-lg-4 col-md-6 p-4 shadow-lg rounded-4">
@@ -10,13 +19,16 @@ export default function Login() {
             Login
           </Card.Title>
 
-          <Form>
+          <Form onSubmit={loginUser}>
             <Form.Group className="mb-3" controlId="formEmail">
               <Form.Label className="fw-semibold">Email</Form.Label>
               <Form.Control 
                 type="email" 
                 placeholder="Enter your email" 
                 className="py-2"
+                onChange={e => {
+                  updateLoginInfo({...loginInfo, email: e.target.value})
+                }}
               />
             </Form.Group>
 
@@ -26,11 +38,10 @@ export default function Login() {
                 type="password" 
                 placeholder="Enter your password"
                 className="py-2"
+                onChange={e => {
+                  updateLoginInfo({...loginInfo, password: e.target.value})
+                }}
               />
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="formCheck">
-              <Form.Check label="Remember me" />
             </Form.Group>
 
             <Button 
@@ -40,6 +51,11 @@ export default function Login() {
             >
               Login
             </Button>
+
+            {loginError ? <Alert variant='danger' className='mt-3'>
+              <p>{loginError}</p>
+            </Alert> : null}
+
           </Form>
         </Card.Body>
       </Card>

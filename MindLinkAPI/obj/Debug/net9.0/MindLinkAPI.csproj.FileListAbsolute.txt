@@ -128,3 +128,8 @@ F:\coding\Web (Back-end)\------ Final Projects ------\MindLink\MindLinkAPI\obj\D
 F:\coding\Web (Back-end)\------ Final Projects ------\MindLink\MindLinkAPI\obj\Debug\net9.0\MindLinkAPI.pdb
 F:\coding\Web (Back-end)\------ Final Projects ------\MindLink\MindLinkAPI\obj\Debug\net9.0\MindLinkAPI.genruntimeconfig.cache
 F:\coding\Web (Back-end)\------ Final Projects ------\MindLink\MindLinkAPI\obj\Debug\net9.0\ref\MindLinkAPI.dll
+F:\coding\Web (Back-end)\------ Final Projects ------\MindLink\MindLinkAPI\bin\Debug\net9.0\Microsoft.IdentityModel.Abstractions.dll
+F:\coding\Web (Back-end)\------ Final Projects ------\MindLink\MindLinkAPI\bin\Debug\net9.0\Microsoft.IdentityModel.JsonWebTokens.dll
+F:\coding\Web (Back-end)\------ Final Projects ------\MindLink\MindLinkAPI\bin\Debug\net9.0\Microsoft.IdentityModel.Logging.dll
+F:\coding\Web (Back-end)\------ Final Projects ------\MindLink\MindLinkAPI\bin\Debug\net9.0\Microsoft.IdentityModel.Tokens.dll
+F:\coding\Web (Back-end)\------ Final Projects ------\MindLink\MindLinkAPI\bin\Debug\net9.0\System.IdentityModel.Tokens.Jwt.dll
