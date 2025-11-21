@@ -7,6 +7,6 @@ namespace MindLinkAPI.Services
     {
         public Task<User?> RegisterAsync(UserRegisterDto request);
 
-        public Task<User?> LoginAsync(UserDto request);
+        public Task<string?> LoginAsync(UserDto request);
     }
 }

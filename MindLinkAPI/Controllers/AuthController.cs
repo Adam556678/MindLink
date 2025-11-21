@@ -23,5 +23,29 @@ namespace MindLinkAPI.Controllers
 
             return Ok(user);
         }
+
+        [HttpPost("login")]
+        public async Task<ActionResult> Login(UserDto request)
+        {
+            var token = await authService.LoginAsync(request);
+            if (token == null)
+            {
+                return Unauthorized(new {message = "Invalid Credentials"});    
+            }
+
+            // Create cookie options
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.None,
+                Expires = DateTime.UtcNow.AddDays(1)
+            };
+
+            // Set the cookie
+            Response.Cookies.Append("jwt", token, cookieOptions);
+
+            return Ok(new {message = "Logged in successfully"});
+        }
     }
 }
