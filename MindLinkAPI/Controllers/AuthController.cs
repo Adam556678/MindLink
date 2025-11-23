@@ -1,3 +1,5 @@
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using mindlinkapi.Entities;
 using MindLinkAPI.Models;
@@ -46,6 +48,22 @@ namespace MindLinkAPI.Controllers
             Response.Cookies.Append("jwt", token, cookieOptions);
 
             return Ok(new {message = "Logged in successfully"});
+        }
+
+        [Authorize]
+        [HttpGet("me")]
+        public IActionResult Me()
+        {
+            var userName = User.Identity?.Name;
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var email = User.FindFirst(ClaimTypes.Email)?.Value;
+
+            return Ok(new
+            {
+                id = userId,
+                name = userName,
+                email = email
+            });
         }
     }
 }
