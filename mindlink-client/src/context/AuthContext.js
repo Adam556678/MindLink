@@ -1,9 +1,10 @@
-import { createContext, useCallback, useState } from "react"
-import { ENDPOINTS, postRequest } from "../api";
+import { createContext, useCallback, useEffect, useState } from "react"
+import { ENDPOINTS, getRequest, postRequest } from "../api";
 
 export const AuthContext = createContext();
 
 export const AuthContextProvider = ({children}) => {
+    const [user, setUser] = useState(null);
     const [registerInfo, setRegisterInfo] = useState({
         name: "",
         email: "",
@@ -17,6 +18,21 @@ export const AuthContextProvider = ({children}) => {
         password: ""
     });
     const [loginError, setLoginError] = useState(null);
+
+    useEffect(() => {
+        async function fetchUser() {
+            try {
+                var response = await getRequest(ENDPOINTS.me);
+                setUser(response)
+                console.log(response);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        fetchUser()
+    }, []);
+
 
     const updateLoginInfo = useCallback((info) => {
         setLoginInfo(info)
@@ -74,7 +90,8 @@ export const AuthContextProvider = ({children}) => {
             loginInfo,
             updateLoginInfo,
             loginUser,
-            loginError
+            loginError,
+            user
         }}>
         {children}
     </AuthContext.Provider>

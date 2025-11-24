@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Navbar, Container, Button, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
 export default function NavBar() {
+
+  const {user} = useContext(AuthContext); 
+
   return (
     <Navbar bg="primary" className="px-3 py-2" style={{height:"65px"}}>
       {/* <Container fluid className="d-flex justify-content-between align-items-center"> */}
@@ -19,7 +23,7 @@ export default function NavBar() {
 
           <Form.Control
             placeholder="Enter Code..."
-            className="d-none d-md-inline"
+            className="d-none d-lg-inline"
             style={{
                 borderRadius: "20px 0 0 20px", // left rounded only
                 height: "38px",
@@ -31,7 +35,7 @@ export default function NavBar() {
 
             <Button
             variant="light"
-            className="fw-semibold d-none d-md-inline"
+            className="fw-semibold d-none d-lg-inline"
             style={{
                 borderRadius: "0 20px 20px 0", // right rounded only
                 border: "none",
@@ -47,7 +51,7 @@ export default function NavBar() {
         <div className="d-flex align-items-center text-white fw-semibold fs-5 gap-2 
         position-absolute start-50 translate-middle-x">
           <i className="bi bi-person-fill fs-4"></i>
-          Mahmoud
+          {user?.name}
         </div>
 
         {/* RIGHT: Menu Button */}
