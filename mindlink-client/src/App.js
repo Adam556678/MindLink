@@ -5,6 +5,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import NavBar from './components/NavBar';
 import "bootstrap-icons/font/bootstrap-icons.css";
+import Home from './components/Home';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Login />} />
         <Route path='/register' element={<Register />} />
+        <Route path='/home' element={<Home />} />
       </Routes>
     </BrowserRouter>
 
