@@ -1,3 +1,5 @@
+using mindlinkapi.Entities;
+
 namespace MindLinkAPI.Entities
 {
     public class Category
@@ -8,6 +10,6 @@ namespace MindLinkAPI.Entities
 
         public int MyProperty { get; set; }
 
-        public List<int> Quizes {get; set;} = [];
+        public List<Quiz> Quizzes {get; set;} = new();
     }
 }

@@ -1,12 +1,11 @@
 using Microsoft.AspNetCore.SignalR;
+using mindlinkapi.Entities;
 
 namespace MindLinkAPI.Entities
 {
     public class Question
     {
         public int Id { get; set; }
-
-        public int QuizId { get; set; }
 
         public string Text { get; set; } = string.Empty;
 

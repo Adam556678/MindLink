@@ -10,5 +10,7 @@ namespace mindlinkapi.Entities
 
         public string HashedPassword {get; set; } = string.Empty;
 
+        public List<Quiz> Quizzes { get; set; } = new();
+
     }
 }
