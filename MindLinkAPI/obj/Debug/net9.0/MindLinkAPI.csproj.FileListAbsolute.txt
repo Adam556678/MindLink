@@ -133,3 +133,6 @@ F:\coding\Web (Back-end)\------ Final Projects ------\MindLink\MindLinkAPI\bin\D
 F:\coding\Web (Back-end)\------ Final Projects ------\MindLink\MindLinkAPI\bin\Debug\net9.0\Microsoft.IdentityModel.Logging.dll
 F:\coding\Web (Back-end)\------ Final Projects ------\MindLink\MindLinkAPI\bin\Debug\net9.0\Microsoft.IdentityModel.Tokens.dll
 F:\coding\Web (Back-end)\------ Final Projects ------\MindLink\MindLinkAPI\bin\Debug\net9.0\System.IdentityModel.Tokens.Jwt.dll
+F:\coding\Web (Back-end)\------ Final Projects ------\MindLink\MindLinkAPI\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+F:\coding\Web (Back-end)\------ Final Projects ------\MindLink\MindLinkAPI\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.dll
+F:\coding\Web (Back-end)\------ Final Projects ------\MindLink\MindLinkAPI\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
