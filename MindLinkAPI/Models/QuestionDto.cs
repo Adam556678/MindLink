@@ -1,6 +1,6 @@
 namespace MindLinkAPI.Models
 {
-    public class CreateQuestionDTO
+    public class QuestionDto
 {
     public string Text { get; set; } = string.Empty;
     public string Option1 { get; set; } = string.Empty;

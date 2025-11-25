@@ -11,8 +11,8 @@ using mindlinkapi.data;
 namespace MindLinkAPI.Migrations
 {
     [DbContext(typeof(MLinkDbContext))]
-    [Migration("20251124171520_RemoveQuizFromQuestions")]
-    partial class RemoveQuizFromQuestions
+    [Migration("20251125093429_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,9 +31,6 @@ namespace MindLinkAPI.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("MyProperty")
-                        .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -92,6 +89,10 @@ namespace MindLinkAPI.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Access")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("integer");

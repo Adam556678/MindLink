@@ -11,8 +11,8 @@ using mindlinkapi.data;
 namespace MindLinkAPI.Migrations
 {
     [DbContext(typeof(MLinkDbContext))]
-    [Migration("20251124160919_Quizzes")]
-    partial class Quizzes
+    [Migration("20251125101221_QuizUserRelation")]
+    partial class QuizUserRelation
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,9 +31,6 @@ namespace MindLinkAPI.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("MyProperty")
-                        .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -71,7 +68,7 @@ namespace MindLinkAPI.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("QuizId")
+                    b.Property<int?>("QuizId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Text")
@@ -93,14 +90,11 @@ namespace MindLinkAPI.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CategId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Category")
+                    b.Property<string>("Access")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("CategoryId")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Code")
@@ -111,9 +105,14 @@ namespace MindLinkAPI.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Quizzes");
                 });
@@ -147,16 +146,26 @@ namespace MindLinkAPI.Migrations
                 {
                     b.HasOne("mindlinkapi.Entities.Quiz", null)
                         .WithMany("Questions")
-                        .HasForeignKey("QuizId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("QuizId");
                 });
 
             modelBuilder.Entity("mindlinkapi.Entities.Quiz", b =>
                 {
-                    b.HasOne("MindLinkAPI.Entities.Category", null)
+                    b.HasOne("MindLinkAPI.Entities.Category", "Category")
                         .WithMany("Quizzes")
-                        .HasForeignKey("CategoryId");
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("mindlinkapi.Entities.User", "User")
+                        .WithMany("Quizzes")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MindLinkAPI.Entities.Category", b =>
@@ -167,6 +176,11 @@ namespace MindLinkAPI.Migrations
             modelBuilder.Entity("mindlinkapi.Entities.Quiz", b =>
                 {
                     b.Navigation("Questions");
+                });
+
+            modelBuilder.Entity("mindlinkapi.Entities.User", b =>
+                {
+                    b.Navigation("Quizzes");
                 });
 #pragma warning restore 612, 618
         }

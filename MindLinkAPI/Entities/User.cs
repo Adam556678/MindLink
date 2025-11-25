@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace mindlinkapi.Entities
 {
     public class User
@@ -10,6 +12,7 @@ namespace mindlinkapi.Entities
 
         public string HashedPassword {get; set; } = string.Empty;
 
+        [JsonIgnore] // prevents infinite loop
         public List<Quiz> Quizzes { get; set; } = new();
 
     }

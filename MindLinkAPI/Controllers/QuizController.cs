@@ -1,9 +1,12 @@
 
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using mindlinkapi.data;
 using mindlinkapi.Entities;
 using MindLinkAPI.Entities;
+using MindLinkAPI.Mappers;
 using MindLinkAPI.Models;
 
 namespace MindLinkAPI.Controllers
@@ -13,6 +16,7 @@ namespace MindLinkAPI.Controllers
     public class  QuizController(MLinkDbContext context) : ControllerBase
     {
         
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<Quiz>> CreateQuiz(CreateQuizDto request)
         {
@@ -36,9 +40,26 @@ namespace MindLinkAPI.Controllers
                 Answer = q.Answer
             }).ToList();
 
+            // get user data
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
+            if (userIdClaim == null)
+            {
+                return Unauthorized(new {message = "Unauthorized user"});
+            }
+
+            int userId = int.Parse(userIdClaim);
+            var user = await context.Users.FindAsync(userId);
+            if (user == null)
+            {
+                return Unauthorized(new {message = "Unauthorized user"});
+            }
+
+
             var quiz = new Quiz
             {
                 Title = request.Title,
+                UserId = userId,
+                User = user!,
                 CategoryId = category.Id,
                 Category = category,
                 Questions = questions,
@@ -50,8 +71,11 @@ namespace MindLinkAPI.Controllers
                 // Add to Db and save
                 context.Quizzes.Add(quiz);
                 await context.SaveChangesAsync();
-    
-                return Ok(quiz);
+
+                // quiz response DTO
+                var quizRespDto = QuizMapper.ToQuizRespDto(quiz);
+                
+                return Ok(quizRespDto);
             }
             catch (System.Exception)
             {
