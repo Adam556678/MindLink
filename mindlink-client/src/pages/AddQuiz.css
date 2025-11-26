@@ -1,0 +1,61 @@
+.add-btn {
+  width: 25px;
+  height: 25px;
+  border: 1px solid #0C6EFC;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;        /* cursor */
+  transition: 0.2s;
+  color: #0C6EFC;
+  font-weight: 600;
+  background-color: white;
+}
+
+.remove-btn {
+  width: 25px;
+  height: 25px;
+  border: 1px solid red;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;        /* cursor */
+  transition: 0.2s;
+  color: red;
+  font-weight: 600;
+  background-color: white;
+}
+
+.add-btn:hover {
+  background: #0C6EFC;
+  color: white;
+}
+
+.remove-btn:hover {
+  background: red;
+  color: white;
+}
+
+.del-btn{
+  padding:0; 
+  margin:0;
+  outline: none;
+  box-shadow: none;
+  background: none;
+  border: none;
+  color: red;
+}
+
+.del-btn:focus,
+.del-btn:active {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.add-qstn-box{
+  border: 1px solid #0C6EFC;
+  border-radius: 5px;
+  padding: 10px;
+}

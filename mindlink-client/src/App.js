@@ -1,22 +1,32 @@
 import logo from './logo.svg';
 import './App.css';
 import {BrowserRouter, Routes, Route} from "react-router-dom";
-import Login from './components/Login';
-import Register from './components/Register';
+import Login from './pages/Login';
+import Register from './pages/Register';
 import NavBar from './components/NavBar';
 import "bootstrap-icons/font/bootstrap-icons.css";
-import Home from './components/Home';
+import Home from './pages/Home';
+import AddQuiz from './pages/AddQuiz';
+import { useContext } from 'react';
+import { AuthContext } from './context/AuthContext';
+import { QuizContextProvider } from './context/QuizContext';
 
 function App() {
+
+  const {user} = useContext(AuthContext);
+
   return (
-    <BrowserRouter>
-      <NavBar />
-      <Routes>
-        <Route path='/' element={<Login />} />
-        <Route path='/register' element={<Register />} />
-        <Route path='/home' element={<Home />} />
-      </Routes>
-    </BrowserRouter>
+    <QuizContextProvider>
+      <BrowserRouter>
+        <NavBar />
+        <Routes>
+          <Route path='/' element={<Login />} />
+          <Route path='/register' element={<Register />} />
+          <Route path='/home' element={<Home />} />
+          <Route path='/add-quiz' element={<AddQuiz />} />
+        </Routes>
+      </BrowserRouter>
+    </QuizContextProvider>
 
   );
 }
