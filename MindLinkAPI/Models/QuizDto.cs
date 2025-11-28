@@ -6,6 +6,8 @@ namespace MindLinkAPI.Models
 
         public string Category { get; set; } = string.Empty;
 
+        public string Access {get; set; } = "Public";
+
         public List<QuestionDto> Questions { get; set; } = new();
     }
 

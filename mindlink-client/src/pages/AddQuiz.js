@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import {Card, Form, Dropdown, DropdownMenu} from "react-bootstrap"
+import {Card, Form, Dropdown, DropdownMenu, Button} from "react-bootstrap"
 import { QuizContext } from '../context/QuizContext'
 import { CATEGORIES } from '../constants/QuizConstants';
 import './AddQuiz.css';
@@ -11,7 +11,8 @@ export default function AddQuiz() {
         quizInfo, 
         updateQuizInfo, 
         questions,
-        addQuestion} = useContext(QuizContext);
+        addQuestion,
+        createQuiz} = useContext(QuizContext);
 
     function addNewQuestion(e) {
         e.preventDefault();
@@ -36,7 +37,12 @@ export default function AddQuiz() {
                 <Form>
                     <Form.Group controlId='quizTitle' className='mb-4'>
                         <Form.Label style={{fontWeight:500, fontSize:16}}>Quiz Title</Form.Label>
-                        <Form.Control type='text' placeholder='Enter title..'></Form.Control>
+                        <Form.Control 
+                        type='text' 
+                        placeholder='Enter title..'
+                        value={quizInfo.title}
+                        onChange={(e) => updateQuizInfo({title:e.target.value})} 
+                        ></Form.Control>
                     </Form.Group>
                     <div className='d-flex gap-2 mb-4 justify-content-start'>
                         <Form.Group controlId='quizCateg' className='mb-4 '>
@@ -83,6 +89,12 @@ export default function AddQuiz() {
                         </button>
                         <span style={{fontWeight:500}}>Add a question</span>  
                     </div>
+
+                    <div className="d-flex justify-content-center">
+                        <Button className="btn btn-md mt-4" onClick={createQuiz}>
+                            Create Quiz
+                        </Button>
+                        </div>
                 </Form>
             </Card.Body>
         </Card>

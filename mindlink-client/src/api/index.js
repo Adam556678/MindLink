@@ -3,7 +3,8 @@ const BASE_URL = "http://localhost:5116";
 export const ENDPOINTS = {
     register: 'auth/register',
     login: 'auth/login',
-    me: 'auth/me'
+    me: 'auth/me',
+    quiz: 'quiz'
 };
 
 

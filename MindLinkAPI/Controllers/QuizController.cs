@@ -62,6 +62,7 @@ namespace MindLinkAPI.Controllers
                 User = user!,
                 CategoryId = category.Id,
                 Category = category,
+                Access = request.Access,
                 Questions = questions,
                 Code = GenerateQuizCode()
             };
