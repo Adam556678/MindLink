@@ -5,7 +5,7 @@ namespace MindLinkAPI.Mappers
 {
     public static class QuizMapper
     {
-        public static QuizResponseDto ToQuizRespDto(Quiz quiz)
+        public static QuizResponseDto ToQuizRespDto(this Quiz quiz)
         {
             return new QuizResponseDto
             {

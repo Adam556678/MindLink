@@ -41,24 +41,16 @@ namespace MindLinkAPI.Controllers
             }).ToList();
 
             // get user data
-            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
-            if (userIdClaim == null)
-            {
-                return Unauthorized(new {message = "Unauthorized user"});
-            }
-
-            int userId = int.Parse(userIdClaim);
-            var user = await context.Users.FindAsync(userId);
+            var user = await getUserData();
             if (user == null)
             {
                 return Unauthorized(new {message = "Unauthorized user"});
             }
 
-
             var quiz = new Quiz
             {
                 Title = request.Title,
-                UserId = userId,
+                UserId = user.Id,
                 User = user!,
                 CategoryId = category.Id,
                 Category = category,
@@ -74,7 +66,7 @@ namespace MindLinkAPI.Controllers
                 await context.SaveChangesAsync();
 
                 // quiz response DTO
-                var quizRespDto = QuizMapper.ToQuizRespDto(quiz);
+                var quizRespDto = quiz.ToQuizRespDto();
                 
                 return Ok(quizRespDto);
             }
@@ -85,6 +77,38 @@ namespace MindLinkAPI.Controllers
                     StatusCodes.Status500InternalServerError,
                     new {message = "Something went wrong"}
                     );
+            }
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<ActionResult> GetMyQuizzes()
+        {   
+            try
+            {
+                // get current user data
+                var user = await getUserData();
+                if (user == null)
+                {
+                    return Unauthorized(new {message = "Unauthorized user"});    
+                }
+
+                var quizzess = await context.Quizzes
+                    .Where(qz => qz.UserId == user.Id)
+                    .Include(q => q.Questions)
+                    .ToListAsync();
+
+                // Map quizzes to RespQuizDto
+                var quizzesDto = quizzess.Select(
+                    q => q.ToQuizRespDto()
+                ).ToList();
+
+                return Ok(quizzesDto);
+            }
+            catch (System.Exception)
+            {
+                
+                throw;
             }
         }
 
@@ -102,6 +126,21 @@ namespace MindLinkAPI.Controllers
 
             return code;
 
+        }
+
+        private async Task<User?> getUserData()
+        {
+            // get user data
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userIdClaim))
+            {
+                return null;
+            }
+
+            int userId = int.Parse(userIdClaim);
+            var user = await context.Users.FindAsync(userId);
+            
+            return user;   
         }
     }
 }
