@@ -1,0 +1,29 @@
+.yourQuizzes{
+    box-shadow: 1px 3px 10px -8px;
+    
+}
+
+.quizCode{
+    font-size: 14px; 
+    bottom:0; 
+    right:0; 
+    position:absolute; 
+    margin-bottom:3px; 
+    margin-right:3px; 
+    display: flex; 
+    gap:3px;
+}
+
+.myQuizzesLst{
+    display: flex;
+    list-style-type: none;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+}
+
+.myQuizzesLst li a{
+    text-decoration: none;
+    color: #0C6EFC;
+    
+}
