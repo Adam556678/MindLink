@@ -4,6 +4,7 @@ import { QuizContext } from '../context/QuizContext'
 import { CATEGORIES } from '../constants/QuizConstants';
 import './AddQuiz.css';
 import QuestionBox from '../components/QuestionBox';
+import {useNavigate} from "react-router-dom";
 
 export default function AddQuiz() {
 
@@ -13,6 +14,8 @@ export default function AddQuiz() {
         questions,
         addQuestion,
         createQuiz} = useContext(QuizContext);
+
+        const navigate = useNavigate();
 
     function addNewQuestion(e) {
         e.preventDefault();
@@ -24,6 +27,13 @@ export default function AddQuiz() {
             option4: '',
             answer: 0 
         });
+    }
+
+    const handleCreateQuiz = async () => {
+        var response = await createQuiz();
+        if (response){
+            navigate('/quiz-success', {state:{quizCode: response.code}});
+        }
     }
 
   return (
@@ -91,7 +101,7 @@ export default function AddQuiz() {
                     </div>
 
                     <div className="d-flex justify-content-center">
-                        <Button className="btn btn-md mt-4" onClick={createQuiz}>
+                        <Button className="btn btn-md mt-4" onClick={handleCreateQuiz}>
                             Create Quiz
                         </Button>
                         </div>

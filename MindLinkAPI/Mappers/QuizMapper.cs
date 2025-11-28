@@ -13,6 +13,7 @@ namespace MindLinkAPI.Mappers
                 Title = quiz.Title,
                 UserId = quiz.UserId,
                 UserName = quiz.User.Name,
+                Code = quiz.Code,
                 Questions = quiz.Questions
                                 .Select(q => new QuestionDto
                                 {

@@ -10,6 +10,7 @@ import AddQuiz from './pages/AddQuiz';
 import { useContext } from 'react';
 import { AuthContext } from './context/AuthContext';
 import { QuizContextProvider } from './context/QuizContext';
+import QuizSuccess from './pages/QuizSuccess';
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
           <Route path='/register' element={<Register />} />
           <Route path='/home' element={<Home />} />
           <Route path='/add-quiz' element={<AddQuiz />} />
+          <Route path='/quiz-success' element={<QuizSuccess />} />
         </Routes>
       </BrowserRouter>
     </QuizContextProvider>

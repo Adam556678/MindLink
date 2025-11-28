@@ -60,6 +60,7 @@ export const QuizContextProvider = ({children}) => {
             }
             var response = await postRequest(ENDPOINTS.quiz, reqBody);
             console.log(response);
+            return response;
         } catch (error) {
             setQuizError({internal:error.message});
             console.log(error.message);
