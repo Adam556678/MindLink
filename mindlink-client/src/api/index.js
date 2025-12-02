@@ -50,3 +50,22 @@ export const getRequest = async (endpoint) => {
     
     return await response.json(); //returns response body
 }
+
+export const getByIdRequest = async (endpoint, id) => {
+    const url = BASE_URL + '/api/' + endpoint + '/' + id;
+    
+    var response = await fetch(url, {
+        method: "GET",
+        credentials: "include"
+    });
+    
+    if (!response.ok){
+        const errorData = await response.json().catch(()=>({}));
+        throw {
+            status: response.status,
+            message: errorData.message || "Something went wrong"
+        };
+    }
+    
+    return await response.json(); //returns response body
+}

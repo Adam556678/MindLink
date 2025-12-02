@@ -1,13 +1,20 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Card } from 'react-bootstrap'
 import { CATEGORY_COLORS, CATEGORY_ICONS } from '../constants/CategoriesConstants'
 
 import "../pages/Home.css"
+import { CategoryContext } from '../context/CategoryContext'
 export default function CategoryCard({category, index}) {
+
+  const {getCatQuizzes} = useContext(CategoryContext);
+
   return (
     <Card  
     className='categoryCard shadow'
     style={{backgroundColor:CATEGORY_COLORS[index % CATEGORY_COLORS.length]}}
+    onClick={() => {
+      getCatQuizzes(category.id);
+    }}
     >
         <div className='categoryCardUp'>
             <i className={CATEGORY_ICONS[category.name] + " fs-1"}></i>
