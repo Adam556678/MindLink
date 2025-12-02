@@ -108,8 +108,10 @@ namespace MindLinkAPI.Controllers
             }
             catch (System.Exception)
             {
-                
-                throw;
+                return StatusCode(
+                    StatusCodes.Status500InternalServerError,
+                    new {message = "Something went wrong"}
+                    );
             }
         }
 

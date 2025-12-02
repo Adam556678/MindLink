@@ -5,6 +5,7 @@ import YourQuizzesCard from '../components/YourQuizzesCard';
 import { QuizContext } from '../context/QuizContext';
 import {useNavigate} from "react-router-dom";
 import CategoryCard from '../components/CategoryCard';
+import { CategoryContext } from '../context/CategoryContext';
 
 export default function Home() {
 
@@ -14,9 +15,15 @@ export default function Home() {
         myQuizzes, 
         isMyQuizzesLoading} = useContext(QuizContext);
 
+    const {categories,
+        getCategories,
+        catLoading} = useContext(CategoryContext);
+
+    
     useEffect(() => {
         getMyQUizzes();
-    }, [getMyQUizzes]);
+        getCategories();
+    }, [getMyQUizzes, getCategories]);
 
   return (
     <div style={{marginTop:65}} className='px-3 py-4'>
@@ -25,17 +32,12 @@ export default function Home() {
             Browse Categories
             </h2>
 
-            <div className='categoryGrid'>
-                <CategoryCard />
-                <CategoryCard />
-                <CategoryCard />
-                <CategoryCard />
-                <CategoryCard />
-                <CategoryCard />
-                <CategoryCard />
-                <CategoryCard />
-                <CategoryCard />
+            {catLoading ?
+            <Spinner animation="border" variant="primary" /> 
+              : <div className='categoryGrid'>
+                {categories.map((cat, index) => <CategoryCard category={cat} index={index} key={index}/>)}    
             </div>
+            }
         </div>
 
         <div>

@@ -4,7 +4,8 @@ export const ENDPOINTS = {
     register: 'auth/register',
     login: 'auth/login',
     me: 'auth/me',
-    quiz: 'quiz'
+    quiz: 'quiz',
+    category: 'category'
 };
 
 
