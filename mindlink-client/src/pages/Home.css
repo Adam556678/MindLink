@@ -65,3 +65,49 @@
 .addNewQuiz:hover p{
     display: inline;
 }
+
+.categoryCard{
+    width: 100% !important; 
+    height: 180px !important;
+    border: none !important; 
+    overflow: hidden; 
+    display: flex; 
+    position: relative;
+    cursor: pointer;
+}
+
+.categoryCardUp{
+    height: 75% !important;
+    display: flex;
+    position: relative;
+}
+
+.categoryCardUp i{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    transition: .3s;
+}
+
+.categoryCard:hover i{
+    transform: translate(-50%, -60%);
+}
+
+.categoryCardDown{
+    width:100% !important; 
+    height:25% !important; 
+    background-color:#f3f6f8ff ; 
+    position: absolute; 
+    bottom: 0; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    font-size: 20;
+}
+
+.categoryGrid{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px !important;
+}

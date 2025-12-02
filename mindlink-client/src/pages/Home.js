@@ -1,9 +1,10 @@
 import React, { useContext, useEffect } from 'react'
-import { Card, Spinner } from 'react-bootstrap'
+import {Spinner } from 'react-bootstrap'
 import './Home.css';
 import YourQuizzesCard from '../components/YourQuizzesCard';
 import { QuizContext } from '../context/QuizContext';
 import {useNavigate} from "react-router-dom";
+import CategoryCard from '../components/CategoryCard';
 
 export default function Home() {
 
@@ -24,38 +25,17 @@ export default function Home() {
             Browse Categories
             </h2>
 
-            <Card style={{
-                width:'200px', 
-                height:'180px', 
-                backgroundColor:'#ffc0cb', 
-                border:'none', 
-                overflow:'hidden', 
-                display:'flex', 
-            }} 
-            className='shadow position-relative'
-            >
-                <div style={{
-                    height: '75%',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                }}>
-                    <i className="bi bi-flask fs-1"></i>
-                </div>           
-
-                <div style={{
-                    width:'100%', 
-                    height:'25%', 
-                    backgroundColor:'#f3f6f8ff', 
-                    position:'absolute', 
-                    bottom:0, 
-                    display:'flex', 
-                    justifyContent:'center', 
-                    alignItems:'center', 
-                    fontSize:20}}>
-                    Science
-                </div>
-            </Card>
+            <div className='categoryGrid'>
+                <CategoryCard />
+                <CategoryCard />
+                <CategoryCard />
+                <CategoryCard />
+                <CategoryCard />
+                <CategoryCard />
+                <CategoryCard />
+                <CategoryCard />
+                <CategoryCard />
+            </div>
         </div>
 
         <div>
