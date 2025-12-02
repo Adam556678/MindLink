@@ -1,6 +1,5 @@
 .yourQuizzes{
     box-shadow: 1px 3px 10px -8px;
-    
 }
 
 .quizCode{
@@ -12,6 +11,7 @@
     margin-right:3px; 
     display: flex; 
     gap:3px;
+    cursor: pointer;
 }
 
 .myQuizzesLst{
@@ -26,4 +26,42 @@
     text-decoration: none;
     color: #0C6EFC;
     
+}
+.addNewQuiz{
+    border: solid 1px #D2D3D3;
+    height: 100px;
+    position: relative;
+}
+.addNewQuiz i{
+    color: #0C6EFC;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: .3s;
+}
+
+.addNewQuiz p{
+    font-size: 18px;
+    font-weight: 400;
+    color: #0C6EFC;
+    display: none;
+    position: absolute;
+    top: 65%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: 0.3s;
+    cursor: default;
+}
+
+.addNewQuiz:hover{
+    background-color: #e7e9e9;
+}
+
+.addNewQuiz:hover i{
+    transform: translate(-50%, -70%);
+}
+
+.addNewQuiz:hover p{
+    display: inline;
 }

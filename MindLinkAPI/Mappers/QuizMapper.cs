@@ -11,6 +11,7 @@ namespace MindLinkAPI.Mappers
             {
                 Id = quiz.Id,
                 Title = quiz.Title,
+                Category = quiz.Category.Name,
                 UserId = quiz.UserId,
                 UserName = quiz.User.Name,
                 Code = quiz.Code,

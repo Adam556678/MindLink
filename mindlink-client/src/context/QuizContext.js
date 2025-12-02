@@ -1,6 +1,6 @@
 import { createContext, useCallback, useState } from "react";
 import { validateQuiz } from "../utils/validateQuiz";
-import { ENDPOINTS, postRequest } from "../api";
+import { ENDPOINTS, getRequest, postRequest } from "../api";
 
 export const QuizContext = createContext();
 
@@ -21,6 +21,24 @@ export const QuizContextProvider = ({children}) => {
         }]);
 
     const [quizError, setQuizError] = useState(null);
+    const [myQuizzes, setMyQuizzes] = useState([]);
+    const [isMyQuizzesLoading, setIsMyQuizzesLoading] = useState(false);
+
+    const getMyQUizzes = useCallback(async () => {
+        setIsMyQuizzesLoading(true);
+
+        try {
+            var response = await getRequest(ENDPOINTS.quiz);
+
+            setMyQuizzes(response);
+            setIsMyQuizzesLoading(false);
+            console.log(response);
+
+        } catch (error) {
+            setIsMyQuizzesLoading(false);
+            console.log(error.message);
+        }
+    }, []);
 
     const addQuestion = useCallback((qstn) => {
         setQuestions(prev => [...prev, qstn]);
@@ -75,7 +93,10 @@ export const QuizContextProvider = ({children}) => {
         removeQuestion,
         updateQuestion,
         createQuiz,
-        quizError
+        quizError,
+        getMyQUizzes,
+        myQuizzes,
+        isMyQuizzesLoading
         }}>
         {children}
     </QuizContext.Provider>

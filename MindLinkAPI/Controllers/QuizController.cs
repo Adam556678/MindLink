@@ -96,6 +96,7 @@ namespace MindLinkAPI.Controllers
                 var quizzess = await context.Quizzes
                     .Where(qz => qz.UserId == user.Id)
                     .Include(q => q.Questions)
+                    .Include(q => q.Category)
                     .ToListAsync();
 
                 // Map quizzes to RespQuizDto
@@ -115,7 +116,7 @@ namespace MindLinkAPI.Controllers
         private string GenerateQuizCode()
         {
             // Generates a random 6-character alphanumeric code
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$&";
             var random = new Random();
             var code = "";
 
