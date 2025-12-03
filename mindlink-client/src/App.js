@@ -12,6 +12,7 @@ import { AuthContext } from './context/AuthContext';
 import { QuizContextProvider } from './context/QuizContext';
 import QuizSuccess from './pages/QuizSuccess';
 import YourQuizzes from './pages/YourQuizzes';
+import Category from './pages/Category';
 
 function App() {
 
@@ -28,6 +29,7 @@ function App() {
           <Route path='/add-quiz' element={<AddQuiz />} />
           <Route path='/quiz-success' element={<QuizSuccess />} />
           <Route path='/your-quizzes' element={<YourQuizzes />} />
+          <Route path='/category/:id' element={<Category />} />
         </Routes>
       </BrowserRouter>
     </QuizContextProvider>

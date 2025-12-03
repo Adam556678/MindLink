@@ -39,6 +39,31 @@ namespace MindLinkAPI.Controllers
 
         [Authorize]
         [HttpGet("{categId}")]
+        public async Task<ActionResult<CategoryResponseDto>> GetCategoryById(int categId)
+        {
+            try
+            {
+                var category = await context.Categories
+                    .FirstOrDefaultAsync(c => c.Id == categId);
+                if(category == null)
+                {
+                    return NotFound(new {message = "Category not found"});
+                }
+
+                return Ok(category.ToCategoryRespDto());
+            }
+            catch (System.Exception)
+            {
+                
+                return StatusCode(
+                    StatusCodes.Status500InternalServerError,
+                    new {message = "Internal server error"}
+                );
+            }
+        }
+
+        [Authorize]
+        [HttpGet("{categId}/quizzes")]
         public async Task<ActionResult<IEnumerable<QuizResponseDto>>> getCategoryQuizzes(int categId)
         {
             try

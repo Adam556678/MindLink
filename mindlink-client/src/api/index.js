@@ -5,7 +5,7 @@ export const ENDPOINTS = {
     login: 'auth/login',
     me: 'auth/me',
     quiz: 'quiz',
-    category: 'category'
+    category: 'category',
 };
 
 
@@ -69,3 +69,22 @@ export const getByIdRequest = async (endpoint, id) => {
     
     return await response.json(); //returns response body
 }
+
+export const getCategoryQuizzesRequest = async (categoryId) => {
+    const url = `${BASE_URL}/api/category/${categoryId}/quizzes`;
+
+    const response = await fetch(url, {
+        method: "GET",
+        credentials: "include"
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw {
+            status: response.status,
+            message: errorData.message || "Something went wrong"
+        };
+    }
+
+    return await response.json();
+};

@@ -1,0 +1,26 @@
+.quizGrid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px,300px));
+    gap: 15px !important;
+    /* place-items: center; */
+    justify-content: center;
+}
+
+.quiz-user{
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    color: #0C6EFC;
+}
+
+.categQuiz{
+    box-shadow: 0px 0px 8px #ddd;
+}
+
+.categQuiz .name {
+    display: inline-block;
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

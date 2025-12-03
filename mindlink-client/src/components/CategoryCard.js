@@ -3,17 +3,18 @@ import { Card } from 'react-bootstrap'
 import { CATEGORY_COLORS, CATEGORY_ICONS } from '../constants/CategoriesConstants'
 
 import "../pages/Home.css"
-import { CategoryContext } from '../context/CategoryContext'
+import { useNavigate } from 'react-router-dom'
+
 export default function CategoryCard({category, index}) {
 
-  const {getCatQuizzes} = useContext(CategoryContext);
+  const navigate = useNavigate();
 
   return (
     <Card  
     className='categoryCard shadow'
     style={{backgroundColor:CATEGORY_COLORS[index % CATEGORY_COLORS.length]}}
     onClick={() => {
-      getCatQuizzes(category.id);
+      navigate(`/category/${category.id}`);
     }}
     >
         <div className='categoryCardUp'>
