@@ -17,6 +17,11 @@
     box-shadow: 0px 0px 8px #ddd;
 }
 
+.categQuiz:hover{
+    cursor: pointer;
+    box-shadow: 0px 0px 8px #0C6EFC;
+}
+
 .categQuiz .name {
     display: inline-block;
     max-width: 200px;

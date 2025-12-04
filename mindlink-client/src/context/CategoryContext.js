@@ -8,6 +8,7 @@ export const CategoryContextProvider = ({children}) => {
     const [catLoading, setCatLoading] = useState(false);
     const [quizzes, setQuizzes] = useState([]);
     const [category, setCategory] = useState(null);
+    const [filteredQuizzes, setFilteredQuizzes] = useState([]);
 
     const getCategories = useCallback(async () => {
         setCatLoading(true);
@@ -26,7 +27,7 @@ export const CategoryContextProvider = ({children}) => {
 
         try {
             var response = await getByIdRequest(ENDPOINTS.category, id)            
-            setCategory(response)
+            setCategory(response);
         } catch (error) {
             console.log(error.message);
         }
@@ -39,11 +40,25 @@ export const CategoryContextProvider = ({children}) => {
         try {
             var response = await getCategoryQuizzesRequest(categId);
             setQuizzes(response);
+            setFilteredQuizzes(response);
         } catch (error) {
             console.log(error.message);
         }
         setCatLoading(false);
     }, []);
+
+    const search = useCallback((text)=>{
+        if (!text.trim()) {
+            // empty → show all quizzes again
+            setFilteredQuizzes(quizzes);
+            return;
+    }
+
+        var results = quizzes.filter(q => 
+            q.title.toLowerCase().includes(text.toLowerCase())
+        );
+        setFilteredQuizzes(results);
+    }, [quizzes]);
 
     return <CategoryContext.Provider value={{
         getCategories,
@@ -52,7 +67,9 @@ export const CategoryContextProvider = ({children}) => {
         getCatQuizzes,
         quizzes,
         getCategoryById,
-        category
+        category,
+        search,
+        filteredQuizzes
     }}>
         {children}
     </CategoryContext.Provider>

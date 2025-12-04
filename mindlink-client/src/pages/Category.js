@@ -13,7 +13,8 @@ export default function Category({}) {
     quizzes, 
     category, 
     getCategoryById,
-    catLoading} = useContext(CategoryContext);
+    catLoading,
+  filteredQuizzes} = useContext(CategoryContext);
 
   useEffect(()=>{
     getCatQuizzes(id);
@@ -25,13 +26,13 @@ export default function Category({}) {
         <h2 style={{marginBottom:80}}>{category ? category.name + " Quizzes" : "Loading..."}</h2>
 
         {/* Search Bar */}
-        <div className='d-flex justify-content-center mb-4'>
+        <div className='d-flex justify-content-center' style={{marginBottom:40}}>
           <SearchBar />
         </div>
         {catLoading ? 
           <Spinner animation="border" variant="primary" />
           : <div className='quizGrid'>
-            {quizzes.map((quiz,index) => <QuizCard key={index} quiz={quiz}/>)}      
+            {filteredQuizzes.map((quiz,index) => <QuizCard key={index} quiz={quiz}/>)}      
           </div>
         }
         
