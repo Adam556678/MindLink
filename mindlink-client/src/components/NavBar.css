@@ -1,0 +1,32 @@
+.createQuiz{
+    background-color: #0C6EFC; 
+    height:50px; 
+    width:150px; 
+    padding:5px;
+    margin-top: 20px;
+    margin-left: 10px;
+    border-radius: 15px;
+    font-size: 17px;
+    color: white;
+    cursor: pointer;
+    font-weight: 450;
+    margin-bottom: 30px;
+}
+
+.createQuiz:hover{
+    background-color: #0e5fd8; 
+}
+
+.drawer-item{
+    padding-left: 10px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 20px;
+}
+
+.drawer-item:hover{
+    background-color: #ddd;
+    cursor: pointer;
+}
