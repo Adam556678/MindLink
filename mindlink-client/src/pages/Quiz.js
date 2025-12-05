@@ -17,6 +17,7 @@ export default function Quiz() {
     
     const [qstnIdx, setQstnIdx] = useState(0);
     const [timeTaken, setTimeTaken] = useState(0);
+    const [selectedOptions, setSelectedOptions] = useState({});
     let timer;
 
     const startTimer = () => {
@@ -28,8 +29,27 @@ export default function Quiz() {
     useEffect(() => {
         getQuizById(id);
         startTimer();
+
+        return () => {
+           clearInterval(timer);
+        }
     }, [id])
 
+    const selectOption = (optIdx) => {
+        setSelectedOptions(prev => ({...prev, [qstnIdx]:optIdx+1}));
+    }
+
+    const calculateScore = () => {
+        var score = 0;
+
+        quiz.questions.forEach((qstn, index) => {
+            if(qstn.answer == selectedOptions[index]){
+                score += 1;
+            }    
+        });
+
+        console.log(score);
+    }
 
   return (
     <>
@@ -59,7 +79,10 @@ export default function Quiz() {
                 </Card.Title>
 
                 <div style={{marginBottom:50}}>
-                    {quiz ? OPTIONS.map((opt, idx) => <div className='option mb-2' key={idx}>
+                    {quiz ? OPTIONS.map((opt, idx) => <div 
+                        className={`option mb-2 ${selectedOptions[qstnIdx] === idx+1 ? "selected" : ""}`} 
+                        key={idx}
+                        onClick={()=> selectOption(idx)}>
                             <span className='fw-bold'>{String.fromCharCode(65 + idx) + '. '}</span>
                             <span>{quiz.questions[qstnIdx][opt]}</span>
                         </div>) 
@@ -79,7 +102,14 @@ export default function Quiz() {
                         </div>
                     </Button>
                     {quiz ? qstnIdx === quiz.questions.length - 1 
-                    ? <Button className='quiz-next-btn-active fs-5'>Submit</Button> 
+                    ? <Button className='quiz-next-btn-active fs-5'
+                        onClick={()=>{
+                            console.log(selectedOptions);
+                            console.log(quiz);
+                            calculateScore();
+                            }}>
+                        Submit
+                        </Button> 
                     : <Button className='quiz-next-btn-active'
                         onClick={()=>{setQstnIdx(prev => prev+1)}}>
                         <div className='d-flex gap-1 fs-5'>

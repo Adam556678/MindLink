@@ -19,6 +19,11 @@
     font-size: 18px;
 }
 
+.option.selected {
+    background-color: #cfe2ff;
+    border: 1px solid #0b63e7;
+}
+
 .option:hover{
     background-color: #eaeaea;
     cursor: pointer;
