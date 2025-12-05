@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react'
-import { Button, Card, ProgressBar } from 'react-bootstrap'
+import { Button, Card, ProgressBar, Spinner } from 'react-bootstrap'
 import { CategoryContext } from '../context/CategoryContext';
 import { QuizContext } from '../context/QuizContext';
 import { useParams } from 'react-router-dom';
@@ -8,10 +8,13 @@ import "./Quiz.css"
 export default function Quiz() {
 
     const {id} = useParams();
-    const {} = useContext(QuizContext);
+    const {getQuizById,
+        fetchQuizError,
+        quiz,
+        fetchQuizLoading} = useContext(QuizContext);
 
     useEffect(() => {
-        
+        getQuizById(id);
     }, [id])
 
   return (
@@ -19,8 +22,10 @@ export default function Quiz() {
         <h3 className='quiz-title'>
             Quiz Title
         </h3>
-
-        <Card className='question-card'>
+        {
+            fetchQuizLoading ? <Spinner style={{margin:'auto'}} variant='primary'></Spinner>
+            :
+            <Card className='question-card'>
             <ProgressBar className='quiz-progress' now={40} />
 
             <Card.Body>
@@ -71,6 +76,8 @@ export default function Quiz() {
                 </div>
             </Card.Body>
         </Card>
+        }
+        
     </>
   )
 }
