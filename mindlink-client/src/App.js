@@ -13,6 +13,7 @@ import { QuizContextProvider } from './context/QuizContext';
 import QuizSuccess from './pages/QuizSuccess';
 import YourQuizzes from './pages/YourQuizzes';
 import Category from './pages/Category';
+import Quiz from './pages/Quiz';
 
 function App() {
 
@@ -30,6 +31,7 @@ function App() {
           <Route path='/quiz-success' element={<QuizSuccess />} />
           <Route path='/your-quizzes' element={<YourQuizzes />} />
           <Route path='/category/:id' element={<Category />} />
+          <Route path='/quiz/:id' element={<Quiz />} />
         </Routes>
       </BrowserRouter>
     </QuizContextProvider>

@@ -23,6 +23,7 @@ export const QuizContextProvider = ({children}) => {
     const [quizError, setQuizError] = useState(null);
     const [myQuizzes, setMyQuizzes] = useState([]);
     const [isMyQuizzesLoading, setIsMyQuizzesLoading] = useState(false);
+    const [quiz, setQuiz] = useState(null);
 
     const getMyQUizzes = useCallback(async () => {
         setIsMyQuizzesLoading(true);
@@ -52,6 +53,14 @@ export const QuizContextProvider = ({children}) => {
         setQuestions(
             prev => prev.map((q, i)=> (i === indx ? {...q, [field]:val} : q))
         );
+    }, []);
+
+    const getQuizById = useCallback(() => {
+        try {
+            var response = 
+        } catch (error) {
+            
+        }
     }, []);
 
     const updateQuizInfo = useCallback((info)=> {

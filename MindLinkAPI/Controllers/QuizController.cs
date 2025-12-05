@@ -115,6 +115,32 @@ namespace MindLinkAPI.Controllers
             }
         }
 
+        [Authorize]
+        [HttpGet("{quizId}")]
+        public async Task<ActionResult<QuizResponseDto>> GetQuizById(int quizId)
+        {
+            try
+            {
+                var quiz = await context.Quizzes
+                    .Include(q => q.Questions)
+                    .FirstOrDefaultAsync(q => q.Id == quizId);
+                    
+                if (quiz == null)
+                {
+                    return NotFound(new {message = "Quiz not found"});
+                }
+
+                return Ok(quiz.ToQuizRespDto());
+            }
+            catch (System.Exception)
+            {
+                return StatusCode(
+                    StatusCodes.Status500InternalServerError,
+                    new {message = "Something went wrong"}
+                    );
+            }
+        }
+
         private string GenerateQuizCode()
         {
             // Generates a random 6-character alphanumeric code
