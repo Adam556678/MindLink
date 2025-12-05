@@ -15,7 +15,32 @@
     border-radius: 0px !important;
 }
 
+.option{
+    font-size: 18px;
+}
+
 .option:hover{
     background-color: #eaeaea;
     cursor: pointer;
+}
+
+.quiz-next-btn-active{
+    background-color: #0b63e7ff; 
+    color: white
+}
+
+.quiz-prev-btn-active{
+    background-color: white !important; 
+    border:none !important; 
+    color: #0b63e7ff !important;
+}
+
+.quiz-prev-btn-disabled{
+    background-color: white !important; 
+    border:none !important; 
+    color: rgb(162, 160, 160) !important;
+}
+
+.quiz-prev-btn-disabled:hover{
+    cursor: default !important;
 }

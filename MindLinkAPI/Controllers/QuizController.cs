@@ -123,6 +123,8 @@ namespace MindLinkAPI.Controllers
             {
                 var quiz = await context.Quizzes
                     .Include(q => q.Questions)
+                    .Include(q => q.Category)
+                    .Include(q => q.User)
                     .FirstOrDefaultAsync(q => q.Id == quizId);
                     
                 if (quiz == null)
@@ -137,7 +139,7 @@ namespace MindLinkAPI.Controllers
                 return StatusCode(
                     StatusCodes.Status500InternalServerError,
                     new {message = "Something went wrong"}
-                    );
+                );
             }
         }
 

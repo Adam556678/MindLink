@@ -1,9 +1,11 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Button, Card, ProgressBar, Spinner } from 'react-bootstrap'
 import { CategoryContext } from '../context/CategoryContext';
 import { QuizContext } from '../context/QuizContext';
 import { useParams } from 'react-router-dom';
 import "./Quiz.css"
+import { OPTIONS } from '../constants/QuizConstants';
+import { formatTime } from '../utils/quizHelper';
 
 export default function Quiz() {
 
@@ -12,67 +14,80 @@ export default function Quiz() {
         fetchQuizError,
         quiz,
         fetchQuizLoading} = useContext(QuizContext);
+    
+    const [qstnIdx, setQstnIdx] = useState(0);
+    const [timeTaken, setTimeTaken] = useState(0);
+    let timer;
+
+    const startTimer = () => {
+        timer = setInterval(() => {
+        setTimeTaken(prev => prev + 1);
+        }, 1000);
+    }
 
     useEffect(() => {
         getQuizById(id);
+        startTimer();
     }, [id])
+
 
   return (
     <>
         <h3 className='quiz-title'>
-            Quiz Title
+            {quiz ? quiz.title : "Loading..."}
         </h3>
         {
-            fetchQuizLoading ? <Spinner style={{margin:'auto'}} variant='primary'></Spinner>
+            fetchQuizLoading ? <div className="d-flex justify-content-center my-5">
+                <Spinner variant='primary' />
+            </div>
             :
             <Card className='question-card'>
-            <ProgressBar className='quiz-progress' now={40} />
+            <ProgressBar className='quiz-progress' now={quiz ? ((qstnIdx+1)/quiz.questions.length)*100 : null} />
 
             <Card.Body>
                 <Card.Title style={{marginBottom:25, fontSize:22}}>
                     <div className='d-flex justify-content-between mb-3'> 
                         <span>
-                            <span style={{color:'#0b63e7ff'}}> 4 </span> of 15
+                            <span style={{color:'#0b63e7ff'}}> {qstnIdx+1} </span> of 
+                            {quiz ? " " + quiz.questions.length : null}
                         </span>
                         <span style={{color:'#0b63e7ff'}}>
-                            Timer
+                            {formatTime(timeTaken)}
                         </span>
                     </div>
-                    This is a question, answer below:
+                    {quiz ? quiz.questions[qstnIdx].text : null}
                 </Card.Title>
 
                 <div style={{marginBottom:50}}>
-                    <div className='option mb-2'>
-                        <span className='fw-bold'>A.</span>
-                        <span> HTML</span>
-                    </div>
-                    <div className='option mb-2'>
-                        <span className='fw-bold'>B.</span>
-                        <span> CSS</span>
-                    </div>
-                    <div className='option mb-2'>
-                        <span className='fw-bold'>C.</span>
-                        <span> JavaScript</span>
-                    </div>
-                    <div className='option mb-2'>
-                        <span className='fw-bold'>D.</span>
-                        <span> None of the above</span>
-                    </div>
+                    {quiz ? OPTIONS.map((opt, idx) => <div className='option mb-2' key={idx}>
+                            <span className='fw-bold'>{String.fromCharCode(65 + idx) + '. '}</span>
+                            <span>{quiz.questions[qstnIdx][opt]}</span>
+                        </div>) 
+                    : null}
                 </div>
 
                 <div className='d-flex justify-content-between'>
-                    <Button style={{backgroundColor:'white', border:'none', color:'#0b63e7ff'}}>
+                    <Button className={qstnIdx > 0 ? 'quiz-prev-btn-active' : 'quiz-prev-btn-disabled'}
+                        onClick={()=>{
+                            if (qstnIdx > 0){
+                                setQstnIdx(prev => prev-1);
+                            }
+                        }}>
                         <div className='d-flex gap-1 fs-5'>
                             <i class="bi bi-chevron-left"></i>
                             <span>Previous</span>
                         </div>
                     </Button>
-                    <Button style={{backgroundColor:'#0b63e7ff', color:'white'}}>
+                    {quiz ? qstnIdx === quiz.questions.length - 1 
+                    ? <Button className='quiz-next-btn-active fs-5'>Submit</Button> 
+                    : <Button className='quiz-next-btn-active'
+                        onClick={()=>{setQstnIdx(prev => prev+1)}}>
                         <div className='d-flex gap-1 fs-5'>
                             <span>Next</span>
                             <i class="bi bi-chevron-right"></i>
                         </div>
                     </Button>
+                     : null}
                 </div>
             </Card.Body>
         </Card>
