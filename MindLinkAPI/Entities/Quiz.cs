@@ -20,5 +20,7 @@ namespace mindlinkapi.Entities
 
         public List<Question> Questions { get; set; } = new();
 
+        public List<Result> Results { get; set; } = new();
+
     }
 }
