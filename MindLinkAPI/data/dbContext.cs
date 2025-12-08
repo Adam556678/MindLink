@@ -13,5 +13,7 @@ namespace mindlinkapi.data
         public DbSet<Quiz> Quizzes {get; set; }
 
         public DbSet<Category> Categories {get; set; }
+
+        public DbSet<Result> Results {get; set; }
     }    
 }

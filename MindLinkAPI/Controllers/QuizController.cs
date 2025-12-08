@@ -143,6 +143,24 @@ namespace MindLinkAPI.Controllers
             }
         }
 
+        [Authorize]
+        [HttpGet("{quizId}/results")]       
+        public async Task<ActionResult> GetQuizResults(int quizId)
+        {
+            var results = await context.Results
+                .Where(r => r.QuizId == quizId)
+                .Include(r => r.User)
+                .Include(r => r.Quiz)
+                .ToListAsync();
+            
+            if (results == null)
+            {
+                return NotFound(new {message = "No results found for this quiz"});
+            }
+
+            
+        }
+
         private string GenerateQuizCode()
         {
             // Generates a random 6-character alphanumeric code
