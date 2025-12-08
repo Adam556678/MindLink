@@ -145,7 +145,7 @@ namespace MindLinkAPI.Controllers
 
         [Authorize]
         [HttpGet("{quizId}/results")]       
-        public async Task<ActionResult> GetQuizResults(int quizId)
+        public async Task<ActionResult<ResultResponseDto>> GetQuizResults(int quizId)
         {
             var results = await context.Results
                 .Where(r => r.QuizId == quizId)
@@ -158,7 +158,9 @@ namespace MindLinkAPI.Controllers
                 return NotFound(new {message = "No results found for this quiz"});
             }
 
-            
+            // map to DTO
+            var resultsDto = results.Select(res => res.ToDto());
+            return Ok(resultsDto);
         }
 
         private string GenerateQuizCode()
