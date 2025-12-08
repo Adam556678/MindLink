@@ -24,6 +24,7 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<MLinkDbContext>(options => 
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 // Read the secret key from config
 var key = Encoding.UTF8.GetBytes(

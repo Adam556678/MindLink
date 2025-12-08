@@ -8,12 +8,13 @@ using mindlinkapi.Entities;
 using MindLinkAPI.Entities;
 using MindLinkAPI.Mappers;
 using MindLinkAPI.Models;
+using MindLinkAPI.Services;
 
 namespace MindLinkAPI.Controllers
 {   
     [Route("api/[controller]")]
     [ApiController]
-    public class  QuizController(MLinkDbContext context) : ControllerBase
+    public class  QuizController(MLinkDbContext context, IUserService userService) : ControllerBase
     {
         
         [Authorize]
@@ -41,7 +42,7 @@ namespace MindLinkAPI.Controllers
             }).ToList();
 
             // get user data
-            var user = await getUserData();
+            var user = await userService.GetCurrentUserData(HttpContext);
             if (user == null)
             {
                 return Unauthorized(new {message = "Unauthorized user"});
@@ -87,7 +88,7 @@ namespace MindLinkAPI.Controllers
             try
             {
                 // get current user data
-                var user = await getUserData();
+                var user = await userService.GetCurrentUserData(HttpContext);
                 if (user == null)
                 {
                     return Unauthorized(new {message = "Unauthorized user"});    
@@ -179,19 +180,6 @@ namespace MindLinkAPI.Controllers
 
         }
 
-        private async Task<User?> getUserData()
-        {
-            // get user data
-            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (string.IsNullOrEmpty(userIdClaim))
-            {
-                return null;
-            }
-
-            int userId = int.Parse(userIdClaim);
-            var user = await context.Users.FindAsync(userId);
-            
-            return user;   
-        }
+        
     }
 }
