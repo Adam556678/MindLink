@@ -14,6 +14,7 @@ import QuizSuccess from './pages/QuizSuccess';
 import YourQuizzes from './pages/YourQuizzes';
 import Category from './pages/Category';
 import Quiz from './pages/Quiz';
+import Result from './pages/Results';
 
 function App() {
 
