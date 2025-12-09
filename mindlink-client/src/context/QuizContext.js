@@ -110,13 +110,15 @@ export const QuizContextProvider = ({children}) => {
 
         try {
             var response = await postRequest(ENDPOINTS.result, result);
-            console.log(response);
+            return response
         } catch (error) {
             console.log(error.message);
             setSubmitError(error.message);
+            return null;
+        } finally{
+            setSubmitLoading(false);
         }
 
-        setSubmitLoading(false);
     }, []);
 
     return <QuizContext.Provider value={{

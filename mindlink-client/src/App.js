@@ -32,6 +32,7 @@ function App() {
           <Route path='/your-quizzes' element={<YourQuizzes />} />
           <Route path='/category/:id' element={<Category />} />
           <Route path='/quiz/:id' element={<Quiz />} />
+          <Route path='/quiz/:quizId/results/:resId' element={<Result />} />
         </Routes>
       </BrowserRouter>
     </QuizContextProvider>

@@ -4,8 +4,6 @@ namespace MindLinkAPI.Models
     {
         public int Id { get; set; }
 
-        public int MyProperty { get; set; }
-
         public required UserRespDto User { get; set; }
 
         public required QuizInfoDto Quiz {get; set; }

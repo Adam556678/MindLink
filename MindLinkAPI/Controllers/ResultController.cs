@@ -54,6 +54,33 @@ namespace MindLinkAPI.Controllers
             // map result to DTO and return
             return Ok(result.ToDto());
         }
+
+        [Authorize]
+        [HttpGet("{resId}")]
+        public async Task<ActionResult<ResultResponseDto>> GetResultById(int resId)
+        {
+            var currentUser = await userService.GetCurrentUserData(HttpContext);
+            if (currentUser == null) return Unauthorized();
+
+            var result = await context.Results
+                .Include(res => res.User)
+                .Include(res => res.Quiz)
+                    .ThenInclude(q => q.Category)
+                .FirstOrDefaultAsync(res => res.Id == resId);
+            if (result == null)
+            {
+                return NotFound(new {message = "Results are not found"});
+            }
+
+            // prevent accessing other people's results
+            if (result.UserId != currentUser.Id)
+            {
+                return StatusCode(StatusCodes.Status403Forbidden,
+                new {message = "You are not allowed to access another user's result."});
+            }
+
+            return Ok(result.ToDto());
+        }
     } 
 
 }

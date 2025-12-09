@@ -63,12 +63,10 @@ export default function Quiz() {
             TimeTaken: timeTaken
         }
 
-        // submit quiz
-        await submitQuiz(result);
-
-        if (!submitError)
-            console.log("Everything is okay");
-            console.log(result);
+        // submit quiz and navigate to results page
+        var response = await submitQuiz(result);
+        if (!submitError && response)
+            navigate(`quiz/${quiz.id}/results/${response.id}`);
             
     }
 
