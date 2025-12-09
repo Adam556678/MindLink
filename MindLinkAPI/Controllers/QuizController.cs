@@ -152,6 +152,7 @@ namespace MindLinkAPI.Controllers
                 .Where(r => r.QuizId == quizId)
                 .Include(r => r.User)
                 .Include(r => r.Quiz)
+                    .ThenInclude(q => q.Category)
                 .ToListAsync();
             
             if (results == null)

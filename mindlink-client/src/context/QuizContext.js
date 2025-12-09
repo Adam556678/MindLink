@@ -1,6 +1,6 @@
 import { createContext, useCallback, useState } from "react";
 import { validateQuiz } from "../utils/validateQuiz";
-import { ENDPOINTS, getByIdRequest, getRequest, postRequest } from "../api";
+import { ENDPOINTS, getByIdRequest, getQuizResultsRequest, getRequest, postRequest } from "../api";
 
 export const QuizContext = createContext();
 
@@ -28,6 +28,10 @@ export const QuizContextProvider = ({children}) => {
     const [fetchQuizLoading, setFetchQuizLoading] = useState(false);
     const [submitLoading, setSubmitLoading] = useState(false);
     const [submitError, setSubmitError] = useState(null);
+    const [quizResults, setQuizResults] = useState(null);
+    const [quizResultsError, setQuizResultsError] = useState(null);
+    const [quizResultsLoading, setQuizResultsLoading] = useState(false);
+
 
     const getMyQUizzes = useCallback(async () => {
         setIsMyQuizzesLoading(true);
@@ -130,6 +134,21 @@ export const QuizContextProvider = ({children}) => {
         }
     }, []);
 
+    const getQuizResults = useCallback(async (quizId) => {
+        setQuizResultsLoading(true);
+        setQuizResultsError(null);
+        
+        try {
+            var response = await getQuizResultsRequest(quizId);
+            setQuizResults(response);
+        } catch (error) {
+            console.log(error.message);
+            setQuizResultsError(error.message);
+        }
+
+        setQuizResultsLoading(false);
+    }, []);
+
     return <QuizContext.Provider value={{
         quizInfo, 
         updateQuizInfo, 
@@ -149,7 +168,11 @@ export const QuizContextProvider = ({children}) => {
         submitQuiz,
         submitLoading,
         submitError,
-        getResults
+        getResults,
+        getQuizResults,
+        quizResults,
+        quizResultsError,
+        quizResultsLoading
         }}>
         {children}
     </QuizContext.Provider>

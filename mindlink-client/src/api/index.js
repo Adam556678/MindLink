@@ -89,3 +89,22 @@ export const getCategoryQuizzesRequest = async (categoryId) => {
 
     return await response.json();
 };
+
+export const getQuizResultsRequest = async (quizId) => {
+    const url = `${BASE_URL}/api/quiz/${quizId}/results`;
+
+    const response = await fetch(url, {
+        method: "GET",
+        credentials: "include"
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw {
+            status: response.status,
+            message: errorData.message || "Something went wrong"
+        };
+    }
+
+    return await response.json();    
+}
