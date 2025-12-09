@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Button, Card, ProgressBar, Spinner } from 'react-bootstrap'
+import { Alert, Button, Card, ProgressBar, Spinner } from 'react-bootstrap'
 import { CategoryContext } from '../context/CategoryContext';
 import { QuizContext } from '../context/QuizContext';
 import { useParams } from 'react-router-dom';
@@ -66,7 +66,7 @@ export default function Quiz() {
         // submit quiz and navigate to results page
         var response = await submitQuiz(result);
         if (!submitError && response)
-            navigate(`quiz/${quiz.id}/results/${response.id}`);
+            navigate(`/quiz/${quiz.id}/results/${response.id}`);
             
     }
 
@@ -121,7 +121,7 @@ export default function Quiz() {
                         </div>
                     </Button>
                     {quiz ? qstnIdx === quiz.questions.length - 1 
-                    ? <Button className='quiz-next-btn-active fs-5'
+                    ? <Button className={submitLoading ? "quiz-next-btn-disabled fs-5" : "quiz-next-btn-active fs-5"}
                         onClick={()=>{
                             handleQuizSubmission();
                             }}>
@@ -139,7 +139,10 @@ export default function Quiz() {
             </Card.Body>
         </Card>
         }
-        
+        {submitError ? <Alert variant='danger' className='alert-quiz-danger'>
+             {submitError}
+             </Alert> 
+        : null}
     </>
   )
 }

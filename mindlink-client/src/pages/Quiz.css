@@ -34,6 +34,13 @@
     color: white
 }
 
+.quiz-next-btn-disabled{
+    background-color: rgb(162, 160, 160) !important; 
+    color: white;
+    border: none;
+    outline: none;
+}
+
 .quiz-prev-btn-active{
     background-color: white !important; 
     border:none !important; 
@@ -48,4 +55,13 @@
 
 .quiz-prev-btn-disabled:hover{
     cursor: default !important;
+}
+
+.alert-quiz-danger{
+    width: 50%; 
+    margin: auto;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

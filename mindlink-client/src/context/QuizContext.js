@@ -121,6 +121,15 @@ export const QuizContextProvider = ({children}) => {
 
     }, []);
 
+    const getResults = useCallback(async (resId) => {
+        try {
+            var response = await getByIdRequest(ENDPOINTS.result, resId);
+            return response;
+        } catch (error) {
+            console.log(error);
+        }
+    }, []);
+
     return <QuizContext.Provider value={{
         quizInfo, 
         updateQuizInfo, 
@@ -139,7 +148,8 @@ export const QuizContextProvider = ({children}) => {
         fetchQuizLoading,
         submitQuiz,
         submitLoading,
-        submitError
+        submitError,
+        getResults
         }}>
         {children}
     </QuizContext.Provider>
