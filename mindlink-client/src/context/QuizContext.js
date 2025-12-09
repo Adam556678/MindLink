@@ -26,6 +26,8 @@ export const QuizContextProvider = ({children}) => {
     const [quiz, setQuiz] = useState(null);
     const [fetchQuizError, setFetchQuizError] = useState(null);
     const [fetchQuizLoading, setFetchQuizLoading] = useState(false);
+    const [submitLoading, setSubmitLoading] = useState(false);
+    const [submitError, setSubmitError] = useState(null);
 
     const getMyQUizzes = useCallback(async () => {
         setIsMyQuizzesLoading(true);
@@ -102,6 +104,21 @@ export const QuizContextProvider = ({children}) => {
         }
     }, [quizInfo, questions]);
 
+    const submitQuiz = useCallback(async (result) => {
+        setSubmitLoading(true);
+        setSubmitError(null)
+
+        try {
+            var response = await postRequest(ENDPOINTS.result, result);
+            console.log(response);
+        } catch (error) {
+            console.log(error.message);
+            setSubmitError(error.message);
+        }
+
+        setSubmitLoading(false);
+    }, []);
+
     return <QuizContext.Provider value={{
         quizInfo, 
         updateQuizInfo, 
@@ -117,7 +134,10 @@ export const QuizContextProvider = ({children}) => {
         getQuizById,
         fetchQuizError,
         quiz,
-        fetchQuizLoading
+        fetchQuizLoading,
+        submitQuiz,
+        submitLoading,
+        submitError
         }}>
         {children}
     </QuizContext.Provider>

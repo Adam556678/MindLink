@@ -6,19 +6,25 @@ import { useParams } from 'react-router-dom';
 import "./Quiz.css"
 import { OPTIONS } from '../constants/QuizConstants';
 import { formatTime } from '../utils/quizHelper';
+import {useNavigate} from "react-router-dom";
 
 export default function Quiz() {
-
+    
     const {id} = useParams();
     const {getQuizById,
         fetchQuizError,
         quiz,
-        fetchQuizLoading} = useContext(QuizContext);
-    
-    const [qstnIdx, setQstnIdx] = useState(0);
-    const [timeTaken, setTimeTaken] = useState(0);
-    const [selectedOptions, setSelectedOptions] = useState({});
-    let timer;
+        fetchQuizLoading,
+        submitQuiz,
+        submitLoading,
+        submitError} = useContext(QuizContext);
+        
+        const [qstnIdx, setQstnIdx] = useState(0);
+        const [timeTaken, setTimeTaken] = useState(0);
+        const [selectedOptions, setSelectedOptions] = useState({});
+        let timer;
+
+        const navigate = useNavigate();
 
     const startTimer = () => {
         timer = setInterval(() => {
@@ -39,16 +45,31 @@ export default function Quiz() {
         setSelectedOptions(prev => ({...prev, [qstnIdx]:optIdx+1}));
     }
 
-    const calculateScore = () => {
+    const handleQuizSubmission = async () => {
+        
+        // calculate user's score
         var score = 0;
-
         quiz.questions.forEach((qstn, index) => {
             if(qstn.answer == selectedOptions[index]){
                 score += 1;
             }    
         });
 
-        console.log(score);
+        // create result object
+        var result = {
+            QuizId: id,
+            Score: score,
+            NumQuestions: quiz.questions.length,
+            TimeTaken: timeTaken
+        }
+
+        // submit quiz
+        await submitQuiz(result);
+
+        if (!submitError)
+            console.log("Everything is okay");
+            console.log(result);
+            
     }
 
   return (
@@ -104,9 +125,7 @@ export default function Quiz() {
                     {quiz ? qstnIdx === quiz.questions.length - 1 
                     ? <Button className='quiz-next-btn-active fs-5'
                         onClick={()=>{
-                            console.log(selectedOptions);
-                            console.log(quiz);
-                            calculateScore();
+                            handleQuizSubmission();
                             }}>
                         Submit
                         </Button> 

@@ -6,6 +6,7 @@ export const ENDPOINTS = {
     me: 'auth/me',
     quiz: 'quiz',
     category: 'category',
+    result: 'result'
 };
 
 
