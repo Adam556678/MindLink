@@ -26,5 +26,21 @@ namespace MindLinkAPI.Mappers
                 TimeTaken = result.TimeTaken
             };
         }
+        public static UserResultDto ToUserResDto(this Result result)
+        {
+            return new UserResultDto
+            {
+                Id = result.Id,
+                NumQuestions = result.NumQuestions,
+                Quiz = new QuizInfoDto
+                {
+                    Id = result.QuizId,
+                    Title = result.Quiz.Title,
+                    Category = result.Quiz.Category.Name
+                },
+                Score = result.Score,
+                TimeTaken = result.TimeTaken
+            };
+        }
     } 
 }

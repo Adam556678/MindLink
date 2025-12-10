@@ -81,6 +81,26 @@ namespace MindLinkAPI.Controllers
 
             return Ok(result.ToDto());
         }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<ActionResult<ResultResponseDto>> GetUserResults()
+        {
+            var currentUser = await userService.GetCurrentUserData(HttpContext);
+            if (currentUser == null) return Unauthorized();
+
+            var results = await context.Results
+                .Where(r => r.UserId == currentUser.Id)
+                .Include(r => r.Quiz)
+                    .ThenInclude(q => q.Category)
+                .GroupBy(r => r.QuizId)
+                .Select(g => g.OrderByDescending(r => r.Score).First())
+                .ToListAsync();
+            
+            var resultsDto = results.Select(res => res.ToUserResDto());
+
+            return Ok(resultsDto);
+        }
     } 
 
 }

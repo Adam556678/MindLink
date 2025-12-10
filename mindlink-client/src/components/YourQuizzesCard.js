@@ -27,7 +27,7 @@ export default function YourQuizzesCard({quiz}) {
             </div>
             <ul className='myQuizzesLst'>
                 <li><a href='#'>Edit</a></li>
-                <li><a href='#'>View Results</a></li>
+                <li><a href={`quiz/${quiz.id}/results`}>View Results</a></li>
             </ul>
         </Card.Body>
     </Card>
