@@ -31,6 +31,10 @@ export const QuizContextProvider = ({children}) => {
     const [quizResults, setQuizResults] = useState(null);
     const [quizResultsError, setQuizResultsError] = useState(null);
     const [quizResultsLoading, setQuizResultsLoading] = useState(false);
+    const [quizzesTookByUser, setQuizzesTookByUser] = useState(null);
+    const [quizzesTookByUserLoading, setQuizzesTookByUserLoading] = useState(false);
+    const [quizzesTookByUserError, setQuizzesTookByUserError] = useState(null);
+
 
 
     const getMyQUizzes = useCallback(async () => {
@@ -147,6 +151,19 @@ export const QuizContextProvider = ({children}) => {
         }
 
         setQuizResultsLoading(false);
+    }, []);
+
+    const getQuizzesTookByUser = useCallback(async () => {
+        setQuizzesTookByUserLoading(true);
+        setQuizzesTookByUserError(null);
+        try {
+            var response = await getRequest(ENDPOINTS.result);
+            setQuizzesTookByUser(response)
+        } catch (error) {
+            console.log(error.message);
+            setQuizzesTookByUserError(error.message)
+        }
+        setQuizzesTookByUserLoading(false);
     }, []);
 
     return <QuizContext.Provider value={{
