@@ -31,7 +31,7 @@ export const QuizContextProvider = ({children}) => {
     const [quizResults, setQuizResults] = useState(null);
     const [quizResultsError, setQuizResultsError] = useState(null);
     const [quizResultsLoading, setQuizResultsLoading] = useState(false);
-    const [quizzesTookByUser, setQuizzesTookByUser] = useState(null);
+    const [quizzesTookByUser, setQuizzesTookByUser] = useState([]);
     const [quizzesTookByUserLoading, setQuizzesTookByUserLoading] = useState(false);
     const [quizzesTookByUserError, setQuizzesTookByUserError] = useState(null);
 
@@ -189,7 +189,11 @@ export const QuizContextProvider = ({children}) => {
         getQuizResults,
         quizResults,
         quizResultsError,
-        quizResultsLoading
+        quizResultsLoading,
+        getQuizzesTookByUser,
+        quizzesTookByUser,
+        quizzesTookByUserLoading,
+        quizzesTookByUserError
         }}>
         {children}
     </QuizContext.Provider>

@@ -14,7 +14,11 @@ export default function Home() {
     const {
         getMyQUizzes, 
         myQuizzes, 
-        isMyQuizzesLoading} = useContext(QuizContext);
+        isMyQuizzesLoading,
+        getQuizzesTookByUser,
+        quizzesTookByUser,
+        quizzesTookByUserLoading,
+        quizzesTookByUserError} = useContext(QuizContext);
 
     const {categories,
         getCategories,
@@ -24,6 +28,7 @@ export default function Home() {
     useEffect(() => {
         getMyQUizzes();
         getCategories();
+        getQuizzesTookByUser()
     }, [getMyQUizzes, getCategories]);
 
   return (
@@ -65,10 +70,17 @@ export default function Home() {
                 Quizzes You Took
             </h2>
             
-            <div className='col-sm-9 col-lg-3 mb-2'>
-                <QuizYouTookCard />
-            </div>
-
+            {quizzesTookByUserLoading ? 
+            <Spinner animation="border" variant="primary" /> 
+            : quizzesTookByUser.slice(0, 2).map((result, index) => <div className='col-sm-9 col-lg-3 mb-2' key={index}>
+                <QuizYouTookCard result={result}/>
+            </div>)}
+            {quizzesTookByUser.length > 2 && (
+                <button 
+                className="btn btn-link"
+                onClick={()=>{navigate('/your-quizzes')}}
+                >View All</button>
+            )}
 
         </div>
 

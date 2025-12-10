@@ -16,6 +16,7 @@ import Category from './pages/Category';
 import Quiz from './pages/Quiz';
 import Result from './pages/Results';
 import QuizResults from './pages/QuizResults';
+import QuizzesYouTook from './pages/QuizzesYouTook';
 
 function App() {
 
@@ -36,6 +37,7 @@ function App() {
           <Route path='/quiz/:id' element={<Quiz />} />
           <Route path='/quiz/:quizId/results/:resId' element={<Result />} />
           <Route path='/quiz/:quizId/results' element={<QuizResults />} />
+          <Route path='/quizzes-taken' element={<QuizzesYouTook />} />
         </Routes>
       </BrowserRouter>
     </QuizContextProvider>

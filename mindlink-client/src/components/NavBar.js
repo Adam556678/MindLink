@@ -119,7 +119,7 @@ export default function NavBar() {
             <i class="bi bi-lightbulb-fill"></i>
             <span className="drawer-item-text">My Quizzes</span>
           </div>
-          <div className="drawer-item">
+          <div className="drawer-item" onClick={()=>handleNavigation("/quizzes-taken")}>
             <i class="bi bi-clock-history"></i>
             <span className="drawer-item-text">Quizzes I took</span>
           </div>
