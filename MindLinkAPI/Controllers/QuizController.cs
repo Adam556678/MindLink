@@ -165,6 +165,21 @@ namespace MindLinkAPI.Controllers
             return Ok(resultsDto);
         }
 
+        [Authorize]
+        [HttpGet("find/{code}")]
+        public async Task<ActionResult<int>> GetQuizIdByCode(string code)
+        {
+            var quizId = await context.Quizzes
+                .Where(q => q.Code == code)
+                .Select(q => q.Id)
+                .FirstOrDefaultAsync();
+
+            if (quizId == 0)
+                return NotFound(new {message = "Quiz not found"});
+            
+            return Ok(quizId);
+        }
+
         private string GenerateQuizCode()
         {
             // Generates a random 6-character alphanumeric code
