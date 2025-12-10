@@ -26,7 +26,7 @@ export default function QuizResults() {
             </h2>
 
             {quizResults && quizResults.length > 0 ? 
-            <QuizResultCard />
+            quizResults.map((res, index) => <QuizResultCard key={index} result={res}/>)
             :<div style={{marginTop:'10%'}}> No results to show</div> }
         </div>
     )
