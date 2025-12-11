@@ -6,12 +6,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using mindlinkapi.data;
 using mindlinkapi.Entities;
+using MindLinkAPI.Entities;
 using MindLinkAPI.Models;
 
 namespace MindLinkAPI.Services
 {
     public class AuthService(MLinkDbContext context, IConfiguration configuration) : IAuthService
     {
+
         public async Task<string?> LoginAsync(UserDto request)
         {
             var user = await context.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
@@ -52,10 +54,12 @@ namespace MindLinkAPI.Services
                 .HashPassword(user, request.Password);
 
             user.HashedPassword = hashedPassword;
-            
 
             context.Users.Add(user);
             await context.SaveChangesAsync();
+            
+            // create OTP and send it to the user
+            await CreateOTP(user.Id);
 
             return user;
         }
@@ -85,6 +89,24 @@ namespace MindLinkAPI.Services
             );
 
             return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
+        }
+
+        private async Task CreateOTP(int userId)
+        {   
+
+            var random = new Random();
+            string otp = random.Next(1000, 9999).ToString();
+
+            var userOtp = new UserOTP
+            {
+              OTP = otp,
+              UserId = userId,
+              CreatedAt = DateTime.UtcNow,
+              ExpiresAt = DateTime.UtcNow.AddHours(1)
+            };
+
+            context.UserOTPs.Add(userOtp);
+            await context.SaveChangesAsync();
         }
     }
 }

@@ -15,5 +15,7 @@ namespace mindlinkapi.data
         public DbSet<Category> Categories {get; set; }
 
         public DbSet<Result> Results {get; set; }
+
+        public DbSet<UserOTP> UserOTPs {get; set; }
     }    
 }

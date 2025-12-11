@@ -10,6 +10,8 @@ namespace mindlinkapi.Entities
 
         public string Email { get; set; } = string.Empty;
 
+        public bool Verified { get; set; } = false;
+
         public string HashedPassword {get; set; } = string.Empty;
 
         [JsonIgnore] // prevents infinite loop
