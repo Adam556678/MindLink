@@ -1,16 +1,22 @@
 import React, { useContext, useState } from "react";
-import { Navbar, Container, Button, Form } from "react-bootstrap";
+import { Navbar, Container, Button, Form, Spinner } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import Drawer from '@mui/material/Drawer';
 import "./NavBar.css";
 import { useNavigate } from "react-router-dom";
+import { useQuizSearch } from "../hooks/useQuizSearch";
 
 export default function NavBar() {
 
   const {user} = useContext(AuthContext); 
   
   const [open, setOpen] = useState(false);
+
+  const [quizCode, setQuizCode] = useState("");
+  const {searchByCode,
+        loading,
+        error} = useQuizSearch();
 
   const navigate = useNavigate();
   
@@ -51,19 +57,25 @@ export default function NavBar() {
                 border: "none",
                 paddingLeft: "15px",
             }}
+            onChange={e => {setQuizCode(e.target.value)}}
             />
 
             <Button
             variant="light"
             className="fw-semibold d-none d-lg-inline"
+            disabled={loading}
             style={{
                 borderRadius: "0 20px 20px 0", // right rounded only
                 border: "none",
                 height: "38px",
             }}
+            onClick={()=>searchByCode(quizCode)}
             >
             GO
-            </Button>      
+            </Button>  
+            
+            {loading ? <Spinner animation="border" style={{color:'white'}} />  : null}
+            
         </div>
 
         {/* CENTER: User Info */}

@@ -108,3 +108,22 @@ export const getQuizResultsRequest = async (quizId) => {
 
     return await response.json();    
 }
+
+export const getQuizByCodeRequest = async (code) => {
+    const url = `${BASE_URL}/api/quiz/find/${code}`;
+
+    const response = await fetch(url, {
+        method: "GET",
+        credentials: "include"
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw {
+            status: response.status,
+            message: errorData.message || "Something went wrong"
+        };
+    }
+
+    return await response.json();    
+}
