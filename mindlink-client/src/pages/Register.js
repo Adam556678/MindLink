@@ -60,6 +60,10 @@ export default function Register() {
               Register
             </Button>
 
+            <div className='d-flex justify-content-center mt-3 gap-1'>
+                Already have an account? <a href='/login' style={{textDecoration:'none'}}>Login now</a>
+            </div>
+
             {registerError ? <Alert variant='danger' className='mt-3'>
               <p>{registerError}</p>
             </Alert> : null}

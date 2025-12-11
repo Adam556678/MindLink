@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import {BrowserRouter, Routes, Route} from "react-router-dom";
+import {BrowserRouter, Routes, Route, useLocation} from "react-router-dom";
 import Login from './pages/Login';
 import Register from './pages/Register';
 import NavBar from './components/NavBar';
@@ -19,30 +19,43 @@ import QuizResults from './pages/QuizResults';
 import QuizzesYouTook from './pages/QuizzesYouTook';
 
 function App() {
-
-  const {user} = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   return (
     <QuizContextProvider>
       <BrowserRouter>
-        <NavBar />
-        <Routes>
-          <Route path='/' element={<Login />} />
-          <Route path='/register' element={<Register />} />
-          <Route path='/home' element={<Home />} />
-          <Route path='/add-quiz' element={<AddQuiz />} />
-          <Route path='/quiz-success' element={<QuizSuccess />} />
-          <Route path='/your-quizzes' element={<YourQuizzes />} />
-          <Route path='/category/:id' element={<Category />} />
-          <Route path='/quiz/:id' element={<Quiz />} />
-          <Route path='/quiz/:quizId/results/:resId' element={<Result />} />
-          <Route path='/quiz/:quizId/results' element={<QuizResults />} />
-          <Route path='/quizzes-taken' element={<QuizzesYouTook />} />
-        </Routes>
+        <AppContent user={user} />
       </BrowserRouter>
     </QuizContextProvider>
-
   );
 }
+
+function AppContent({ user }) {
+  const location = useLocation();
+
+  const hideNavBarOn = ["/login", "/register"];
+  const shouldHideNavBar = hideNavBarOn.includes(location.pathname);
+
+  return (
+    <>
+      {!shouldHideNavBar && <NavBar />}
+
+      <Routes>
+        <Route path='/login' element={<Login />} />
+        <Route path='/register' element={<Register />} />
+        <Route path='/' element={user ? <Home /> : <Login />} />
+        <Route path='/add-quiz' element={<AddQuiz />} />
+        <Route path='/quiz-success' element={<QuizSuccess />} />
+        <Route path='/your-quizzes' element={<YourQuizzes />} />
+        <Route path='/category/:id' element={<Category />} />
+        <Route path='/quiz/:id' element={<Quiz />} />
+        <Route path='/quiz/:quizId/results/:resId' element={<Result />} />
+        <Route path='/quiz/:quizId/results' element={<QuizResults />} />
+        <Route path='/quizzes-taken' element={<QuizzesYouTook />} />
+      </Routes>
+    </>
+  );
+}
+
 
 export default App;

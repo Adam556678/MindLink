@@ -52,6 +52,10 @@ export default function Login() {
               Login
             </Button>
 
+            <div className='d-flex justify-content-center mt-3 gap-1'>
+                Don't have an account? <a href='/register' style={{textDecoration:'none'}}>Signup now</a>
+            </div>
+
             {loginError ? <Alert variant='danger' className='mt-3'>
               <p>{loginError}</p>
             </Alert> : null}

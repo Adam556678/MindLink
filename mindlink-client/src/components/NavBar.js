@@ -15,8 +15,7 @@ export default function NavBar() {
 
   const [quizCode, setQuizCode] = useState("");
   const {searchByCode,
-        loading,
-        error} = useQuizSearch();
+        loading} = useQuizSearch();
 
   const navigate = useNavigate();
   
