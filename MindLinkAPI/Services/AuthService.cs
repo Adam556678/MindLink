@@ -8,6 +8,9 @@ using mindlinkapi.data;
 using mindlinkapi.Entities;
 using MindLinkAPI.Entities;
 using MindLinkAPI.Models;
+using MailKit.Net.Smtp;
+using MailKit.Security;
+using MimeKit;
 
 namespace MindLinkAPI.Services
 {
@@ -59,7 +62,8 @@ namespace MindLinkAPI.Services
             await context.SaveChangesAsync();
             
             // create OTP and send it to the user
-            await CreateOTP(user.Id);
+            var otp = await CreateOTP(user.Id);
+
 
             return user;
         }
@@ -91,7 +95,7 @@ namespace MindLinkAPI.Services
             return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
         }
 
-        private async Task CreateOTP(int userId)
+        private async Task<string> CreateOTP(int userId)
         {   
 
             var random = new Random();
@@ -107,6 +111,29 @@ namespace MindLinkAPI.Services
 
             context.UserOTPs.Add(userOtp);
             await context.SaveChangesAsync();
+
+            return otp;
+        }
+
+        private async Task SendVerificationEmail(string toEmail, string otp)
+        {
+            var email = new MimeMessage();
+            email.From.Add(new MailboxAddress("MindLink", "mahmoud@gmail.com"));
+            email.To.Add(new MailboxAddress("", toEmail));
+            email.Subject = "Your Verification Code";
+
+            email.Body = new TextPart("html")
+            {
+                Text = $"<h2>Your verification code is:</h2><h1>{otp}</h1><p>Expires in 1 hour.</p>"
+            };
+
+            using var smtp = new SmtpClient();
+
+            await smtp.ConnectAsync("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
+
+            await smtp.AuthenticateAsync("your-email@gmail.com", "your-app-password");
+            await smtp.SendAsync(email);
+            await smtp.DisconnectAsync(true);
         }
     }
 }
