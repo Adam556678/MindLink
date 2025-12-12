@@ -118,7 +118,7 @@ namespace MindLinkAPI.Services
         private async Task SendVerificationEmail(string toEmail, string otp)
         {
             var email = new MimeMessage();
-            email.From.Add(new MailboxAddress("MindLink", "mahmoud@gmail.com"));
+            email.From.Add(new MailboxAddress("MindLink", "@gmail.com"));
             email.To.Add(new MailboxAddress("", toEmail));
             email.Subject = "Your Verification Code";
 

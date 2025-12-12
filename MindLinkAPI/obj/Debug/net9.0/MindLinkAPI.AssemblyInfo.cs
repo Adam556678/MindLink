@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MindLinkAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f6bd364dd007f2de88bd9c7e8589ed84e963928c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c6a879eee8c7032cd0ca2b3ef6c39285a3d8a76f")]
 [assembly: System.Reflection.AssemblyProductAttribute("MindLinkAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MindLinkAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
