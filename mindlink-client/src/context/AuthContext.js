@@ -5,6 +5,7 @@ export const AuthContext = createContext();
 
 export const AuthContextProvider = ({children}) => {
     const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
     const [registerInfo, setRegisterInfo] = useState({
         name: "",
         email: "",
@@ -27,6 +28,8 @@ export const AuthContextProvider = ({children}) => {
                 console.log(response);
             } catch (error) {
                 console.log(error);
+            }finally{
+                setLoading(false);
             }
         }
 
@@ -91,7 +94,8 @@ export const AuthContextProvider = ({children}) => {
             updateLoginInfo,
             loginUser,
             loginError,
-            user
+            user,
+            loading
         }}>
         {children}
     </AuthContext.Provider>

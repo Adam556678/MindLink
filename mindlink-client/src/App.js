@@ -17,20 +17,20 @@ import Quiz from './pages/Quiz';
 import Result from './pages/Results';
 import QuizResults from './pages/QuizResults';
 import QuizzesYouTook from './pages/QuizzesYouTook';
+import PrivateRoute from './components/PrivateRoute';
 
 function App() {
-  const { user } = useContext(AuthContext);
 
   return (
     <QuizContextProvider>
       <BrowserRouter>
-        <AppContent user={user} />
+        <AppContent/>
       </BrowserRouter>
     </QuizContextProvider>
   );
 }
 
-function AppContent({ user }) {
+function AppContent() {
   const location = useLocation();
 
   const hideNavBarOn = ["/login", "/register"];
@@ -41,18 +41,21 @@ function AppContent({ user }) {
       {!shouldHideNavBar && <NavBar />}
 
       <Routes>
-        <Route path='/login' element={<Login />} />
-        <Route path='/register' element={<Register />} />
-        <Route path='/' element={user ? <Home /> : <Login />} />
-        <Route path='/add-quiz' element={<AddQuiz />} />
-        <Route path='/quiz-success' element={<QuizSuccess />} />
-        <Route path='/your-quizzes' element={<YourQuizzes />} />
-        <Route path='/category/:id' element={<Category />} />
-        <Route path='/quiz/:id' element={<Quiz />} />
-        <Route path='/quiz/:quizId/results/:resId' element={<Result />} />
-        <Route path='/quiz/:quizId/results' element={<QuizResults />} />
-        <Route path='/quizzes-taken' element={<QuizzesYouTook />} />
-      </Routes>
+          <Route path='/login' element={<Login />} />
+          <Route path='/register' element={<Register />} />
+
+
+        {/* Protected Routes */}
+          <Route path='/' element={<PrivateRoute><Home /></PrivateRoute> } />
+          <Route path='/add-quiz' element={<PrivateRoute><AddQuiz /></PrivateRoute>} />
+          <Route path='/quiz-success' element={<PrivateRoute><QuizSuccess /></PrivateRoute>} />
+          <Route path='/your-quizzes' element={<PrivateRoute><YourQuizzes /></PrivateRoute>} />
+          <Route path='/category/:id' element={<PrivateRoute><Category /></PrivateRoute>} />
+          <Route path='/quiz/:id' element={<PrivateRoute><Quiz /></PrivateRoute>} />
+          <Route path='/quiz/:quizId/results/:resId' element={<PrivateRoute><Result /></PrivateRoute>} />
+          <Route path='/quiz/:quizId/results' element={<PrivateRoute><QuizResults /></PrivateRoute>} />
+          <Route path='/quizzes-taken' element={<PrivateRoute><QuizzesYouTook /></PrivateRoute>} />
+        </Routes>
     </>
   );
 }
