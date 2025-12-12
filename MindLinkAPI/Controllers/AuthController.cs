@@ -30,10 +30,15 @@ namespace MindLinkAPI.Controllers
         [HttpPost("login")]
         public async Task<ActionResult> Login(UserDto request)
         {
-            var token = await authService.LoginAsync(request);
-            if (token == null)
+            var loginResponse = await authService.LoginAsync(request);
+            if (loginResponse.Result == LoginResult.InvalidCredentials)
             {
                 return Unauthorized(new {message = "Invalid Credentials"});    
+            }
+
+            if (loginResponse.Result == LoginResult.NotVerified)
+            {
+                return BadRequest(new {message = "Email not verified"});    
             }
 
             // Create cookie options
@@ -46,15 +51,15 @@ namespace MindLinkAPI.Controllers
             };
 
             // Set the cookie
-            Response.Cookies.Append("jwt", token, cookieOptions);
+            Response.Cookies.Append("jwt", loginResponse.Token!, cookieOptions);
 
             return Ok(new {message = "Logged in successfully"});
         }
 
         [HttpPost("verify/{code}")]
-        public async Task<ActionResult> Verify(string code, string email)
+        public async Task<ActionResult> Verify(string code ,[FromBody] VerifyDto request)
         {
-            var result = await authService.CheckOTP(code, email); 
+            var result = await authService.CheckOTP(code, request.Email); 
 
             switch (result)
             {

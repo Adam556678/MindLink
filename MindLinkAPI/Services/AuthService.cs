@@ -18,23 +18,32 @@ namespace MindLinkAPI.Services
     public class AuthService(MLinkDbContext context, IConfiguration configuration) : IAuthService
     {
 
-        public async Task<string?> LoginAsync(UserDto request)
+        public async Task<LoginResponse> LoginAsync(UserDto request)
         {
             var user = await context.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
             if (user == null)
-            {
-                return null;
-            }
+                return new LoginResponse {
+                    Result = LoginResult.InvalidCredentials
+                };
 
             // verify password
             var passowrdVerify = new PasswordHasher<User>().VerifyHashedPassword(
                 user, user.HashedPassword, request.Password);
             if (passowrdVerify == PasswordVerificationResult.Failed)
-            {
-                return null;
-            }
+                return new LoginResponse {
+                    Result = LoginResult.InvalidCredentials
+                };
 
-            return CreateToken(user);
+            // check for verification
+            if (user.Verified == false)
+                return new LoginResponse {
+                    Result = LoginResult.NotVerified
+                };
+
+            return new LoginResponse {
+                    Result = LoginResult.Success,
+                    Token = CreateToken(user)
+                };
         }
 
         public async Task<User?> RegisterAsync(UserRegisterDto request)

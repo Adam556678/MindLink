@@ -8,7 +8,7 @@ namespace MindLinkAPI.Services
     {
         public Task<User?> RegisterAsync(UserRegisterDto request);
 
-        public Task<string?> LoginAsync(UserDto request);
+        public Task<LoginResponse> LoginAsync(UserDto request);
 
         public Task<OTPResult> CheckOTP(string otpCode, string email);
     }
