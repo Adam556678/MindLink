@@ -136,3 +136,6 @@ F:\coding\Web (Back-end)\------ Final Projects ------\MindLink\MindLinkAPI\bin\D
 F:\coding\Web (Back-end)\------ Final Projects ------\MindLink\MindLinkAPI\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 F:\coding\Web (Back-end)\------ Final Projects ------\MindLink\MindLinkAPI\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.dll
 F:\coding\Web (Back-end)\------ Final Projects ------\MindLink\MindLinkAPI\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+F:\coding\Web (Back-end)\------ Final Projects ------\MindLink\MindLinkAPI\bin\Debug\net9.0\BouncyCastle.Cryptography.dll
+F:\coding\Web (Back-end)\------ Final Projects ------\MindLink\MindLinkAPI\bin\Debug\net9.0\MailKit.dll
+F:\coding\Web (Back-end)\------ Final Projects ------\MindLink\MindLinkAPI\bin\Debug\net9.0\MimeKit.dll

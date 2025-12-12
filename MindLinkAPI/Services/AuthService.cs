@@ -11,6 +11,7 @@ using MindLinkAPI.Models;
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using MimeKit;
+using MindLinkAPI.Enums;
 
 namespace MindLinkAPI.Services
 {
@@ -63,7 +64,7 @@ namespace MindLinkAPI.Services
             
             // create OTP and send it to the user
             var otp = await CreateOTP(user.Id);
-
+            await SendVerificationEmail(user.Email, otp);
 
             return user;
         }
@@ -117,8 +118,14 @@ namespace MindLinkAPI.Services
 
         private async Task SendVerificationEmail(string toEmail, string otp)
         {
+            var sender = configuration["EmailSettings:FromEmail"];
+            var appPassword = configuration["EmailSettings:AppPassword"];
+            var host = configuration["EmailSettings:SMTPHost"];
+            var port = configuration.GetValue<int>("EmailSettings:SMTPPort");
+
             var email = new MimeMessage();
-            email.From.Add(new MailboxAddress("MindLink", "@gmail.com"));
+
+            email.From.Add(new MailboxAddress("MindLink", sender));
             email.To.Add(new MailboxAddress("", toEmail));
             email.Subject = "Your Verification Code";
 
@@ -129,11 +136,48 @@ namespace MindLinkAPI.Services
 
             using var smtp = new SmtpClient();
 
-            await smtp.ConnectAsync("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
+            await smtp.ConnectAsync(host, port, SecureSocketOptions.StartTls);
 
-            await smtp.AuthenticateAsync("your-email@gmail.com", "your-app-password");
+            await smtp.AuthenticateAsync(sender, appPassword);
             await smtp.SendAsync(email);
             await smtp.DisconnectAsync(true);
+        }
+
+        public async Task<OTPResult> CheckOTP(string otpCode, string email)
+        {
+            var user = await context.Users
+                .FirstOrDefaultAsync(u => u.Email == email);
+            if (user == null)
+                return OTPResult.UserNotFound;
+            
+            var otp = await context.UserOTPs
+                .FirstOrDefaultAsync(c => c.UserId == user.Id);
+
+            if (otp == null)
+                return OTPResult.OTPNotFound; 
+            
+            if (otp.OTP != otpCode)
+                return OTPResult.InvalidOTP;
+            
+            if (otp.ExpiresAt < DateTime.UtcNow)
+            {
+                // Delete the expired OTP
+                context.UserOTPs.Remove(otp);
+                await context.SaveChangesAsync();
+
+                // create a new OTP and send it
+                var newOtp = await CreateOTP(user.Id);
+                await SendVerificationEmail(user.Email, newOtp);
+                
+                return OTPResult.ExpiredOTP;
+            }
+
+            // Delete the OTP and mark user as verified
+            user.Verified = true;
+            context.UserOTPs.Remove(otp);
+            await context.SaveChangesAsync();
+            
+            return OTPResult.Success;
         }
     }
 }

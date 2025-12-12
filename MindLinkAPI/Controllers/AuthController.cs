@@ -2,6 +2,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using mindlinkapi.Entities;
+using MindLinkAPI.Enums;
 using MindLinkAPI.Models;
 using MindLinkAPI.Services;
 
@@ -23,7 +24,7 @@ namespace MindLinkAPI.Controllers
                 });
             }
 
-            return Ok(user);
+            return Ok(new {message = $"An OTP verification code was sent to {user.Email}"});
         }
 
         [HttpPost("login")]
@@ -49,6 +50,28 @@ namespace MindLinkAPI.Controllers
 
             return Ok(new {message = "Logged in successfully"});
         }
+
+        [HttpPost("verify/{code}")]
+        public async Task<ActionResult> Verify(string code, string email)
+        {
+            var result = await authService.CheckOTP(code, email); 
+
+            switch (result)
+            {
+                case OTPResult.Success:
+                    return Ok(new {message = "User verified successfully"});
+
+                case OTPResult.InvalidOTP:
+                    return BadRequest(new {message = "Invalid OTP"});
+
+                case OTPResult.ExpiredOTP:
+                    return BadRequest(new {message = "OTP is expired, new one was sent"});
+
+                default:
+                    return BadRequest(new {message = "User not found"});
+            }
+        }
+
 
         [Authorize]
         [HttpGet("me")]

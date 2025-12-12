@@ -1,4 +1,5 @@
 using mindlinkapi.Entities;
+using MindLinkAPI.Enums;
 using MindLinkAPI.Models;
 
 namespace MindLinkAPI.Services
@@ -8,5 +9,7 @@ namespace MindLinkAPI.Services
         public Task<User?> RegisterAsync(UserRegisterDto request);
 
         public Task<string?> LoginAsync(UserDto request);
+
+        public Task<OTPResult> CheckOTP(string otpCode, string email);
     }
 }
