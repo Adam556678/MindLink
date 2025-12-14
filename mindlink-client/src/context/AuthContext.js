@@ -111,6 +111,15 @@ export const AuthContextProvider = ({children}) => {
         setRegisterInfo(info)
     }, []);
 
+    const logout = useCallback(async ()=>{
+        try {
+            var response = postRequest(ENDPOINTS.logout, null);
+            return true;
+        } catch (error) {
+            return false;
+        }
+    }, []);
+
     return <AuthContext.Provider
         value={{registerUser,
             registerInfo,
@@ -125,7 +134,8 @@ export const AuthContextProvider = ({children}) => {
             loading,
             verifyEmail,
             verifyLoading,
-            verifyError
+            verifyError,
+            logout
         }}>
         {children}
     </AuthContext.Provider>

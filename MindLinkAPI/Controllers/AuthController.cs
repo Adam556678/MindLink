@@ -95,5 +95,20 @@ namespace MindLinkAPI.Controllers
                 email = email
             });
         }
+
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            // Remove the cookie by setting it with an expired date
+            Response.Cookies.Append("jwt", "", new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,       // set true in production
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTime.UtcNow.AddDays(-1) // expired in the past
+            });
+
+            return Ok(new { message = "Logged out successfully" });
+        }
     }
 }

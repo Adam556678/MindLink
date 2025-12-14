@@ -9,7 +9,7 @@ import { useQuizSearch } from "../hooks/useQuizSearch";
 
 export default function NavBar() {
 
-  const {user} = useContext(AuthContext); 
+  const {user, logout} = useContext(AuthContext); 
   
   const [open, setOpen] = useState(false);
 
@@ -27,6 +27,12 @@ export default function NavBar() {
     setOpen(false);
     navigate(route);
   } 
+
+  const handleLogout = async () => {
+    const success = await logout();
+    if (success)
+      navigate('/login');
+  }
 
   return (
     <>
@@ -137,7 +143,7 @@ export default function NavBar() {
         </div>
 
         <div>
-          <div className="drawer-item mb-3">
+          <div className="drawer-item mb-3" onClick={() => handleLogout()}>
             <i class="bi bi-box-arrow-right"></i>
             <span className="drawer-item-text">Log Out</span>
           </div>

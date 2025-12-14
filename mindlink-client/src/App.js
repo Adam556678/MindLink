@@ -34,8 +34,8 @@ function App() {
 function AppContent() {
   const location = useLocation();
 
-  const hideNavBarOn = ["/login", "/register"];
-  const shouldHideNavBar = hideNavBarOn.includes(location.pathname);
+  const hideNavBarOn = ["/login", "/register", "/verify"];
+  const shouldHideNavBar = hideNavBarOn.some(path => location.pathname.startsWith(path));
 
   return (
     <>

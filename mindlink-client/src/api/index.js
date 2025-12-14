@@ -7,7 +7,8 @@ export const ENDPOINTS = {
     quiz: 'quiz',
     category: 'category',
     result: 'result',
-    verifyEmail : 'auth/verify'
+    verifyEmail : 'auth/verify',
+    logout: 'auth/logout'
 };
 
 
