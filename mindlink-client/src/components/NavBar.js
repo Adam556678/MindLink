@@ -131,6 +131,9 @@ export default function NavBar() {
           <div className="drawer-item">
             <i class="bi bi-person-fill"></i>
             <span className="drawer-item-text">Profile</span>
+            <div className="coming-soon">
+              Coming Soon..
+            </div>
           </div>
           <div className="drawer-item" onClick={()=>handleNavigation("/your-quizzes")}>
             <i class="bi bi-lightbulb-fill"></i>

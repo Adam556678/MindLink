@@ -30,3 +30,14 @@
     background-color: #ddd;
     cursor: pointer;
 }
+
+.coming-soon{
+    display: none;
+    font-size: 12px; 
+    color: #888;
+    font-style: italic;  
+}
+
+.drawer-item:hover .coming-soon {
+    display: inline; /* or block if you want it on a new line */
+}
