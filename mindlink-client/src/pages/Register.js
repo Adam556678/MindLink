@@ -23,7 +23,9 @@ export default function Register() {
       setRegisterLoading(false);
       
       if (res){
-        navigate(`/verify/${res.email}`);
+        navigate(`/verify/${res.emailVerificationToken}`, {state: {
+          email: res.email
+        }});
       }
     }
 

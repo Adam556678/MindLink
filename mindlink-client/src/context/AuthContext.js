@@ -20,6 +20,8 @@ export const AuthContextProvider = ({children}) => {
         password: ""
     });
     const [loginError, setLoginError] = useState(null);
+    const [verifyLoading, setVerifyLoading] = useState(false);
+    const [verifyError, setVerifyError] = useState(null);
 
 
     useEffect(() => {
@@ -75,13 +77,35 @@ export const AuthContextProvider = ({children}) => {
 
         try {
             var response = await postRequest(ENDPOINTS.register, request);
-            return request;
+            return response;
         } catch (error) {
             console.log(error.message);
             setRegisterError(error.message);
             return null;
         }
     }, [registerInfo]);
+
+    const verifyEmail = useCallback(async (otp, token) => {
+        setVerifyLoading(true);
+        setVerifyError(null);
+
+        const request = {
+            code: otp,
+            verifyToken: token
+        }
+
+        try {
+            var response = await postRequest(ENDPOINTS.verifyEmail, request);            
+            console.log(response);
+            return true;
+        } catch (error) {
+            console.log(error.message);
+            setVerifyError(error.message);
+            return false;
+        }finally {
+            setVerifyLoading(false);
+        }
+    }, []);
 
     const updateRegisterInfo = useCallback((info) => {
         setRegisterInfo(info)
@@ -98,7 +122,10 @@ export const AuthContextProvider = ({children}) => {
             loginUser,
             loginError,
             user,
-            loading
+            loading,
+            verifyEmail,
+            verifyLoading,
+            verifyError
         }}>
         {children}
     </AuthContext.Provider>

@@ -1,11 +1,29 @@
-import React from 'react'
-import { Form, Button, Card, Alert } from "react-bootstrap";
+import React, { useContext, useState } from 'react'
+import { Form, Button, Card, Alert, Spinner } from "react-bootstrap";
 import { AuthContext } from '../context/AuthContext';
-import { useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 export default function VerifyOTP() {
 
-  const {email} = useParams();
+  const {token} = useParams();
+  const { state } = useLocation();
+  const navigate = useNavigate();
+
+  const email = state?.email;
+
+  const {verifyEmail,
+        verifyLoading,
+        verifyError} = useContext(AuthContext);
+
+  const [otpCode, setOtpCode] = useState("");
+
+  const handleVerifyEmail = async (e) => {
+    e.preventDefault();
+    const success = await verifyEmail(otpCode, token);
+
+    if (success)
+      navigate("/login");
+  }
 
   return (
     <div className="d-flex justify-content-center align-items-center vh-100">
@@ -19,15 +37,15 @@ export default function VerifyOTP() {
             A verification code was sent to <div className='fw-semibold italic fs-8'>{email}</div> 
           </div> : null}
 
-          <Form onSubmit={()=>{}}>
+          <Form onSubmit={handleVerifyEmail}>
             <Form.Group className="mb-3" controlId="formEmail">
               <Form.Label className="fw-semibold">Code</Form.Label>
               <Form.Control 
-                type="email" 
+                type="text" 
                 placeholder="Enter the code" 
                 className="py-2"
                 onChange={e => {
-                  
+                  setOtpCode(e.target.value);
                 }}
               />
             </Form.Group>
@@ -36,13 +54,14 @@ export default function VerifyOTP() {
               variant="primary" 
               type="submit"
               className="w-25 py-2 rounded-4 fw-semibold d-block mx-auto"
+              disabled={verifyLoading}
             >
-              Verify
+              {verifyLoading ? <Spinner animation="border" style={{color:'white'}}/> : "Verify"}
             </Button>
 
-            {/* {loginError ? <Alert variant='danger' className='mt-3'>
-              <p>{loginError}</p>
-            </Alert> : null} */}
+            {verifyError ? <Alert variant='danger' className='mt-3'>
+              <p>{verifyError}</p>
+            </Alert> : null}
 
           </Form>
         </Card.Body>

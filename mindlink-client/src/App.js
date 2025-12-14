@@ -44,7 +44,7 @@ function AppContent() {
       <Routes>
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
-          <Route path='/verify/:email' element={<VerifyOTP />} />
+          <Route path='/verify/:token' element={<VerifyOTP />} />
 
 
         {/* Protected Routes */}
