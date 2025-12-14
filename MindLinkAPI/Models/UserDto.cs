@@ -21,5 +21,7 @@ namespace MindLinkAPI.Models
 
         public string Email { get; set; } = string.Empty;
 
+        public string EmailVerificationToken  { get; set; } = string.Empty;
+
     }
 }

@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using mindlinkapi.Entities;
 using MindLinkAPI.Enums;
+using MindLinkAPI.Mappers;
 using MindLinkAPI.Models;
 using MindLinkAPI.Services;
+using Org.BouncyCastle.Ocsp;
 
 namespace MindLinkAPI.Controllers
 {   
@@ -24,7 +26,7 @@ namespace MindLinkAPI.Controllers
                 });
             }
 
-            return Ok(new {message = $"An OTP verification code was sent to {user.Email}"});
+            return Ok(user.ToRespDto());
         }
 
         [HttpPost("login")]
@@ -56,10 +58,10 @@ namespace MindLinkAPI.Controllers
             return Ok(new {message = "Logged in successfully"});
         }
 
-        [HttpPost("verify/{code}")]
-        public async Task<ActionResult> Verify(string code ,[FromBody] VerifyDto request)
+        [HttpPost("verify")]
+        public async Task<ActionResult> Verify(VerifyDto request)
         {
-            var result = await authService.CheckOTP(code, request.Email); 
+            var result = await authService.CheckOTP(request.Code, request.VerifyToken); 
 
             switch (result)
             {

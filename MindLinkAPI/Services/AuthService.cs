@@ -12,6 +12,7 @@ using MailKit.Net.Smtp;
 using MailKit.Security;
 using MimeKit;
 using MindLinkAPI.Enums;
+using System.Security.Cryptography;
 
 namespace MindLinkAPI.Services
 {
@@ -67,6 +68,9 @@ namespace MindLinkAPI.Services
                 .HashPassword(user, request.Password);
 
             user.HashedPassword = hashedPassword;
+
+            // create verification token (for routing purposes)
+            user.EmailVerificationToken = GenerateVerificationToken();
 
             context.Users.Add(user);
             await context.SaveChangesAsync();
@@ -152,10 +156,11 @@ namespace MindLinkAPI.Services
             await smtp.DisconnectAsync(true);
         }
 
-        public async Task<OTPResult> CheckOTP(string otpCode, string email)
+        public async Task<OTPResult> CheckOTP(string code, string emailVerificationToken)
         {
+            
             var user = await context.Users
-                .FirstOrDefaultAsync(u => u.Email == email);
+                .FirstOrDefaultAsync(u => u.EmailVerificationToken == emailVerificationToken);
             if (user == null)
                 return OTPResult.UserNotFound;
             
@@ -165,7 +170,7 @@ namespace MindLinkAPI.Services
             if (otp == null)
                 return OTPResult.OTPNotFound; 
             
-            if (otp.OTP != otpCode)
+            if (otp.OTP != code)
                 return OTPResult.InvalidOTP;
             
             if (otp.ExpiresAt < DateTime.UtcNow)
@@ -187,6 +192,11 @@ namespace MindLinkAPI.Services
             await context.SaveChangesAsync();
             
             return OTPResult.Success;
+        }
+
+        private static string GenerateVerificationToken()
+        {
+            return Convert.ToHexString(RandomNumberGenerator.GetBytes(32));
         }
     }
 }

@@ -10,6 +10,6 @@ namespace MindLinkAPI.Services
 
         public Task<LoginResponse> LoginAsync(UserDto request);
 
-        public Task<OTPResult> CheckOTP(string otpCode, string email);
+        public Task<OTPResult> CheckOTP(string code, string emailVerificationToken);
     }
 }

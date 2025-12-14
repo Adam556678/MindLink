@@ -14,6 +14,8 @@ namespace mindlinkapi.Entities
 
         public string HashedPassword {get; set; } = string.Empty;
 
+        public string EmailVerificationToken  { get; set; } = string.Empty;
+
         [JsonIgnore] // prevents infinite loop
         public List<Quiz> Quizzes { get; set; } = new();
 

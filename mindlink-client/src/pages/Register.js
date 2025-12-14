@@ -1,6 +1,7 @@
-import React, { useContext } from 'react'
-import { Form, Button, Card, Alert } from "react-bootstrap";
+import React, { useContext, useState } from 'react'
+import { Form, Button, Card, Alert, Spinner } from "react-bootstrap";
 import { AuthContext } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 export default function Register() {
     const {
@@ -10,6 +11,22 @@ export default function Register() {
         registerError
         } = useContext(AuthContext);
 
+    const navigate = useNavigate();
+
+    const [registerLoading, setRegisterLoading] = useState(false);
+
+    const handleUserRegister = async (e) => {
+      e.preventDefault();
+      setRegisterLoading(true);
+
+      const res =  await registerUser();
+      setRegisterLoading(false);
+      
+      if (res){
+        navigate(`/verify/${res.email}`);
+      }
+    }
+
   return (
     <div className="d-flex justify-content-center align-items-center vh-100">
       <Card className="col-sm-8 col-lg-4 col-md-6 p-4 shadow-lg rounded-4">
@@ -18,7 +35,7 @@ export default function Register() {
             Register
           </Card.Title>
 
-          <Form onSubmit={registerUser}>
+          <Form onSubmit={handleUserRegister}>
             
             <Form.Group className='mb-3 ' controlId='formName'>
                 <Form.Label className='fw-semibold'>Name</Form.Label>
@@ -56,8 +73,9 @@ export default function Register() {
               variant="primary" 
               type="submit"
               className="w-25 py-2 rounded-4 fw-semibold d-block mx-auto"
+              disabled={registerLoading}
             >
-              Register
+              {registerLoading? <Spinner animation="border" style={{color:'white'}}/> : "Register"}
             </Button>
 
             <div className='d-flex justify-content-center mt-3 gap-1'>

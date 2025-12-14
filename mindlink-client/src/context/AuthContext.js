@@ -1,5 +1,6 @@
 import { createContext, useCallback, useEffect, useState } from "react"
 import { ENDPOINTS, getRequest, postRequest } from "../api";
+import { useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext();
 
@@ -19,6 +20,7 @@ export const AuthContextProvider = ({children}) => {
         password: ""
     });
     const [loginError, setLoginError] = useState(null);
+
 
     useEffect(() => {
         async function fetchUser() {
@@ -57,7 +59,7 @@ export const AuthContextProvider = ({children}) => {
     }, [loginInfo]);
 
     const registerUser = useCallback(async (e) => {
-        e.preventDefault();
+        if(e) e.preventDefault();
 
         setRegisterError(null);
 
@@ -73,10 +75,11 @@ export const AuthContextProvider = ({children}) => {
 
         try {
             var response = await postRequest(ENDPOINTS.register, request);
-            console.log(response);
+            return request;
         } catch (error) {
             console.log(error.message);
             setRegisterError(error.message);
+            return null;
         }
     }, [registerInfo]);
 

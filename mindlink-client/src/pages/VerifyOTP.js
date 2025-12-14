@@ -1,15 +1,23 @@
 import React from 'react'
 import { Form, Button, Card, Alert } from "react-bootstrap";
 import { AuthContext } from '../context/AuthContext';
+import { useParams } from 'react-router-dom';
 
 export default function VerifyOTP() {
+
+  const {email} = useParams();
+
   return (
     <div className="d-flex justify-content-center align-items-center vh-100">
-      <Card className="col-sm-8 col-lg-4 col-md-6 p-4 shadow-lg rounded-4">
+      <Card className="col-sm-8 col-lg-3 col-md-6 p-4 shadow-lg rounded-4">
         <Card.Body>
           <Card.Title className="fw-bold mb-4 text-center fs-2">
             Verify Your Email
           </Card.Title>
+
+          {email ? <div className='mt-2 mb-3 text-center fs-7'>
+            A verification code was sent to <div className='fw-semibold italic fs-8'>{email}</div> 
+          </div> : null}
 
           <Form onSubmit={()=>{}}>
             <Form.Group className="mb-3" controlId="formEmail">

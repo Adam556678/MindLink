@@ -18,6 +18,7 @@ import Result from './pages/Results';
 import QuizResults from './pages/QuizResults';
 import QuizzesYouTook from './pages/QuizzesYouTook';
 import PrivateRoute from './components/PrivateRoute';
+import VerifyOTP from './pages/VerifyOTP';
 
 function App() {
 
@@ -43,6 +44,7 @@ function AppContent() {
       <Routes>
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
+          <Route path='/verify/:email' element={<VerifyOTP />} />
 
 
         {/* Protected Routes */}
