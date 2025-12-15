@@ -2,7 +2,19 @@
 
 MindLink is a complete, full-stack web application built with ASP.NET Core and React. It allows users to create, share, and take quizzes on various topics, featuring a secure authentication system, categorized browsing, quiz management, and a real-time quiz-taking experience.
 
-![MindLink Demo GIF](https://your-image-url-here.com/demo.gif) 
+## Screenshots
+
+### Home Page
+![Home Page](Screenshots/HP.PNG)
+
+### Category Page
+![Category Page](Screenshots/Categ.png)
+
+### Quiz Page
+![Quiz Page](Screenshots/Quiz.PNG)
+
+### Create Quiz Page
+![Create Quiz Page](Screenshots/CQ.PNG)
 
 ## ✨ Core Features
 
