@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
-import { Form, Button, Card, Alert } from "react-bootstrap";
+import { Form, Button, Card, Alert, Spinner } from "react-bootstrap";
 import { AuthContext } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
 
@@ -8,8 +9,20 @@ export default function Login() {
     updateLoginInfo,
     loginUser,
     loginError,
-    loginInfo
+    loginInfo,
+    loginLoading
   } = useContext(AuthContext);
+
+  const navigate = useNavigate();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    const success = await loginUser();
+
+    if (success)
+        navigate("/");
+  }
 
   return (
     <div className="d-flex justify-content-center align-items-center vh-100">
@@ -19,7 +32,7 @@ export default function Login() {
             Login
           </Card.Title>
 
-          <Form onSubmit={loginUser}>
+          <Form onSubmit={handleLogin}>
             <Form.Group className="mb-3" controlId="formEmail">
               <Form.Label className="fw-semibold">Email</Form.Label>
               <Form.Control 
@@ -48,8 +61,9 @@ export default function Login() {
               variant="primary" 
               type="submit"
               className="w-25 py-2 rounded-4 fw-semibold d-block mx-auto"
+              disabled={loginLoading}
             >
-              Login
+              {loginLoading ? <Spinner animation='border' style={{color:'white'}} /> : "Login"}
             </Button>
 
             <div className='d-flex justify-content-center mt-3 gap-1'>

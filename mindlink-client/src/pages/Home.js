@@ -7,6 +7,7 @@ import {useNavigate} from "react-router-dom";
 import CategoryCard from '../components/CategoryCard';
 import { CategoryContext } from '../context/CategoryContext';
 import QuizYouTookCard from '../components/QuizYouTookCard';
+import EmptyQuizzes from '../components/EmptyQuizzes';
 
 export default function Home() {
 
@@ -53,9 +54,9 @@ export default function Home() {
             
             {isMyQuizzesLoading ? 
             <Spinner animation="border" variant="primary" /> 
-            : myQuizzes.slice(0, 2).map((quiz, index) => <div className='col-sm-9 col-lg-3 mb-2' key={index}>
+            : myQuizzes.length > 0 ? (myQuizzes.slice(0, 2).map((quiz, index) => <div className='col-sm-9 col-lg-3 mb-2' key={index}>
                 <YourQuizzesCard  quiz={quiz}/>
-            </div>)}
+            </div>)) : <div style={{marginLeft:15}}><EmptyQuizzes /></div>}
             {myQuizzes.length > 2 && (
                 <button 
                 className="btn btn-link"
@@ -72,9 +73,9 @@ export default function Home() {
             
             {quizzesTookByUserLoading ? 
             <Spinner animation="border" variant="primary" /> 
-            : quizzesTookByUser.slice(0, 2).map((result, index) => <div className='col-sm-9 col-lg-3 mb-2' key={index}>
+            : quizzesTookByUser.length > 0 ? (quizzesTookByUser.slice(0, 2).map((result, index) => <div className='col-sm-9 col-lg-3 mb-2' key={index}>
                 <QuizYouTookCard result={result}/>
-            </div>)}
+            </div>)) : <div style={{marginLeft:15}}><EmptyQuizzes /></div>}
             {quizzesTookByUser.length > 2 && (
                 <button 
                 className="btn btn-link"

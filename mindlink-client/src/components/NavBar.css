@@ -39,5 +39,5 @@
 }
 
 .drawer-item:hover .coming-soon {
-    display: inline; /* or block if you want it on a new line */
+    display: inline; 
 }

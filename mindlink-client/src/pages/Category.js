@@ -5,6 +5,7 @@ import SearchBar from '../components/SearchBar';
 import "./Category.css"
 import QuizCard from '../components/QuizCard';
 import { Spinner } from 'react-bootstrap';
+import EmptyQuizzes from '../components/EmptyQuizzes';
 
 export default function Category({}) {
 
@@ -32,7 +33,11 @@ export default function Category({}) {
         {catLoading ? 
           <Spinner animation="border" variant="primary" />
           : <div className='quizGrid'>
-            {filteredQuizzes.map((quiz,index) => <QuizCard key={index} quiz={quiz}/>)}      
+            {filteredQuizzes.length > 0 ? filteredQuizzes.map((quiz,index) => 
+            <QuizCard key={index} quiz={quiz}/>) 
+            : <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "40vh" }}>
+                <EmptyQuizzes />
+              </div>}      
           </div>
         }
         

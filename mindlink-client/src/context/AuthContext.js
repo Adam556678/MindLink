@@ -20,6 +20,7 @@ export const AuthContextProvider = ({children}) => {
         password: ""
     });
     const [loginError, setLoginError] = useState(null);
+    const [loginLoading, setLoginLoading] = useState(false);
     const [verifyLoading, setVerifyLoading] = useState(false);
     const [verifyError, setVerifyError] = useState(null);
 
@@ -45,17 +46,21 @@ export const AuthContextProvider = ({children}) => {
         setLoginInfo(info)
     }, []);
 
-    const loginUser = useCallback(async (e) => {
-        e.preventDefault();
-
+    const loginUser = useCallback(async () => {
+        setLoginLoading(true);
         setLoginError(null);
         
         try {
-            var response = await postRequest(ENDPOINTS.login, loginInfo);        
-            console.log(response);
+            await postRequest(ENDPOINTS.login, loginInfo);        
+            var response = await getRequest(ENDPOINTS.me);
+            setUser(response)
+            return true;
         } catch (error) {
             console.log(error.message);
             setLoginError(error.message);
+            return false;
+        }finally{
+            setLoginLoading(false);
         }
 
     }, [loginInfo]);
@@ -130,6 +135,7 @@ export const AuthContextProvider = ({children}) => {
             updateLoginInfo,
             loginUser,
             loginError,
+            loginLoading,
             user,
             loading,
             verifyEmail,
